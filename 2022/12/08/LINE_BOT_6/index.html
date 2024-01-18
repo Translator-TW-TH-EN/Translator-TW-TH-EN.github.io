@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Albert Wang">
+
+
+    <meta name="subtitle" content="歡迎來到這裡">
+
+
+
+
+<title>【LINE BOT 翻譯機器人】(6) 為各位呈現 原始程式碼 啦~~ | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/my_js.js"></script>
+    
+    <script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Albert&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Albert&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">【LINE BOT 翻譯機器人】(6) 為各位呈現 原始程式碼 啦~~</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Albert Wang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 8, 2022&nbsp;&nbsp;00:00:00</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Google-Apps-Script-內部檔案分布"><a href="#Google-Apps-Script-內部檔案分布" class="headerlink" title="Google Apps Script 內部檔案分布"></a>Google Apps Script 內部檔案分布</h1><ul>
+<li>我將只會講解主程式碼(doPost)與支程式(translate_other_function)的部分<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/EEEWWW.jpg"></li>
+</ul>
+<h1 id="主程式原始碼-doPost"><a href="#主程式原始碼-doPost" class="headerlink" title="主程式原始碼(doPost)"></a>主程式原始碼(doPost)</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 認證身份 channel_access_token，請放上自己的CHANNEL_ACCESS_TOKEN</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>=<span class="string">&quot;&quot;</span>  </span><br><span class="line"><span class="comment">// 請放上自己的google sheet (可以打開我的進去參觀一下~~)</span></span><br><span class="line"><span class="keyword">var</span> google_sheet_url=<span class="string">&#x27;https://docs.google.com/spreadsheets/d/1a2LjfrpoGb8dLYPX7piCsl0NEUMgiLIyxSrMAWSf0cA/edit?usp=sharing&#x27;</span>; </span><br><span class="line"><span class="keyword">var</span> spreadsheet = <span class="title class_">SpreadsheetApp</span>.<span class="title function_">openByUrl</span>(google_sheet_url);</span><br><span class="line"><span class="keyword">var</span> sheet_translator = spreadsheet.<span class="title function_">getSheetByName</span>(<span class="string">&quot;translator&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在程式碼裡面Translate_N代表著是第幾組，其範圍為0~49</span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Translate</span>_N_Max=<span class="number">50</span> <span class="comment">//Translate_N最多上限為同時有50組</span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Group</span>_language_Max=<span class="number">12</span> <span class="comment">//在單一個群組內能選取最多上限同時有12種不同翻譯語言</span></span><br><span class="line"><span class="keyword">var</span> today = <span class="keyword">new</span> <span class="title class_">Date</span>(); <span class="comment">//取得日期與時間</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">doPost</span>(<span class="params">e</span>)  &#123;</span><br><span class="line">  <span class="comment">//接收使用者在 line bot 上所動作的觸發資訊</span></span><br><span class="line">  <span class="keyword">var</span> msg= <span class="title class_">JSON</span>.<span class="title function_">parse</span>(e.<span class="property">postData</span>.<span class="property">contents</span>);</span><br><span class="line">  <span class="comment">//從接收到的訊息中取出 replyToken 和發送的訊息文字資訊 </span></span><br><span class="line">  <span class="keyword">var</span> replyToken = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">replyToken</span>;</span><br><span class="line">  <span class="keyword">var</span> type = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">type</span>;</span><br><span class="line">  <span class="keyword">var</span> userid=msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">source</span>.<span class="property">userId</span>;</span><br><span class="line">  <span class="keyword">var</span> groupid=msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">source</span>.<span class="property">groupId</span>;</span><br><span class="line">  <span class="comment">//取得觸發事件使用者所屬在Excel的位置(若無則false)</span></span><br><span class="line">  <span class="keyword">var</span> <span class="title class_">Translate</span>_N=<span class="title function_">translate_groupid_search_N</span>(groupid); </span><br><span class="line"></span><br><span class="line">  <span class="comment">//判斷有人把機器人加入群組</span></span><br><span class="line">  <span class="keyword">if</span>(type==<span class="string">&#x27;join&#x27;</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_">translate_vain_N</span>()!=<span class="string">&quot;false&quot;</span>)&#123; <span class="comment">//先檢查是否Excel內有無空處</span></span><br><span class="line">      <span class="comment">//在空處地方填入</span></span><br><span class="line">      sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title function_">translate_vain_N</span>()+<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>).<span class="title function_">setValue</span>(groupid); </span><br><span class="line">      <span class="title function_">reply_message</span>(replyToken,reply_bot_welcome);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123; <span class="comment">//Excel內全部都滿了，到達上限(有很多空間，應該不太可能)</span></span><br><span class="line">      <span class="title function_">push_message_userid</span>(<span class="string">&quot;目前已達到群組上限，請去檢查一下&quot;</span>)</span><br><span class="line">      <span class="title function_">reply_message</span>(replyToken,reply_all_group_full);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="string">&#x27;leave&#x27;</span>)&#123; <span class="comment">//若有人把機器人退出群組，則刪除該群組對應在Excel的資料</span></span><br><span class="line">    <span class="title function_">sheet_cancel</span>(<span class="title class_">Translate</span>_N)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="string">&quot;follow&quot;</span>)&#123; <span class="comment">//若有人把機器人加入為好友，則推送介紹文</span></span><br><span class="line">    <span class="title function_">reply_message</span>(replyToken,reply_instruction);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="string">&#x27;postback&#x27;</span>)&#123; <span class="comment">//若有人點選群組內的翻譯語言按鈕</span></span><br><span class="line">    postbackMessage=msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">postback</span>.<span class="property">data</span> <span class="comment">//取得所按的按鈕</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="title class_">Translate</span>_N!=<span class="string">&quot;false&quot;</span>)&#123; <span class="comment">//檢查是否所屬在Excel內(無則略過)</span></span><br><span class="line">      <span class="comment">//檢查鎖定欄位已經為使用中True了(告知使用者要將機器人退出重加)</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">String</span>(sheet_translator.<span class="title function_">getSheetValues</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>)[<span class="number">0</span>][<span class="number">0</span>])==<span class="string">&quot;true&quot;</span>)&#123;</span><br><span class="line">        <span class="title function_">reply_message</span>(replyToken,reply_reselect);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span>&#123; <span class="comment">//鎖定欄位尚未使用False</span></span><br><span class="line">        <span class="keyword">var</span> <span class="title class_">Language</span>_list=<span class="title function_">translate_group_language</span>(groupid);</span><br><span class="line">        <span class="keyword">if</span>(postbackMessage==<span class="string">&quot;finish&quot;</span>)&#123; <span class="comment">//點選finish後檢查是否又設定正確</span></span><br><span class="line">          <span class="keyword">if</span>(<span class="title class_">Language</span>_list.<span class="property">length</span>==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="title function_">reply_message</span>(replyToken,[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>: <span class="string">&quot;錯誤：尚未設定語言\nError:Language not set yet&quot;</span>&#125;])</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span>&#123; <span class="comment">//都設定正確，鎖定欄位改為使用中True</span></span><br><span class="line">            sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>).<span class="title function_">setValue</span>(<span class="string">&quot;true&quot;</span>) </span><br><span class="line">            <span class="title function_">reply_message</span>(replyToken,[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>: <span class="string">&quot;設定完成，可以開始交談\nSetup is complete,can start talking&quot;</span>&#125;])</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(postbackMessage==<span class="string">&quot;reselect&quot;</span>)&#123; <span class="comment">//點選reselect後讓使用者重新選擇</span></span><br><span class="line">          <span class="title function_">sheet_cancel</span>(<span class="title class_">Translate</span>_N)</span><br><span class="line">          sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>).<span class="title function_">setValue</span>(groupid);</span><br><span class="line">          reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>: <span class="string">&quot;重置完成，請重新點選\nReselect is complete,please reselect&quot;</span>&#125;,translate_reply[<span class="number">0</span>]]</span><br><span class="line">          <span class="title function_">reply_message</span>(replyToken,reply)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 非點選finish或reselect代表為點選翻譯語言</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(postbackMessage.<span class="title function_">replace</span>(<span class="regexp">/[a-z-A-Z]*/</span>, <span class="string">&#x27;&#x27;</span>).<span class="property">length</span>==<span class="number">0</span>)&#123;</span><br><span class="line">          <span class="keyword">if</span>(<span class="title class_">Language</span>_list.<span class="title function_">includes</span>(postbackMessage))&#123; <span class="comment">//設定重複翻譯語言</span></span><br><span class="line">            <span class="keyword">var</span> reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:<span class="string">&#x27;錯誤：不能設定重複的語言\nError:Cannot set duplicate language&#x27;</span>&#125;]</span><br><span class="line">            <span class="title function_">reply_message</span>(replyToken,reply);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//超過能夠設定的上限</span></span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span>(<span class="title class_">Language</span>_list.<span class="property">length</span>&gt;=<span class="title class_">Group</span>_language_Max)&#123; </span><br><span class="line">            <span class="keyword">var</span> reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:<span class="string">&#x27;錯誤：設定過多的語言\nError:Too many languages set&#x27;</span>&#125;]</span><br><span class="line">            <span class="title function_">reply_message</span>(replyToken,reply);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//經過確認資料後存放至Excel</span></span><br><span class="line">          sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">3</span>,<span class="number">3</span>+<span class="title class_">Language</span>_list.<span class="property">length</span>,<span class="number">1</span>,<span class="number">1</span>).<span class="title function_">setValue</span>(postbackMessage)</span><br><span class="line">          <span class="keyword">var</span> reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:<span class="string">&#x27;語言(language)：&#x27;</span>+<span class="title class_">String</span>(<span class="title function_">translate_group_language</span>(groupid))&#125;]</span><br><span class="line">          <span class="title function_">reply_message</span>(replyToken,reply);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="comment">//最後判斷是文字訊息</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="string">&#x27;message&#x27;</span> &amp;&amp; msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">message</span>.<span class="property">text</span>!=<span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> userMessage = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">message</span>.<span class="property">text</span>;</span><br><span class="line">    <span class="comment">//呼叫使用說明</span></span><br><span class="line">    <span class="keyword">if</span>(userMessage.<span class="title function_">toLowerCase</span>()==<span class="string">&quot;instruction&quot;</span> || userMessage==<span class="string">&quot;使用說明&quot;</span>)&#123; </span><br><span class="line">      <span class="title function_">reply_message</span>(replyToken,reply_instruction);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="title class_">Translate</span>_N!=<span class="string">&quot;false&quot;</span>)&#123; </span><br><span class="line">      <span class="comment">//若是有存在Excel且檢查鎖定欄位已經為使用中True則翻譯</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">String</span>(sheet_translator.<span class="title function_">getSheetValues</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>)[<span class="number">0</span>][<span class="number">0</span>])==<span class="string">&quot;true&quot;</span>)&#123;</span><br><span class="line">        <span class="keyword">var</span> <span class="title class_">Language</span>_list=<span class="title function_">translate_group_language</span>(groupid);</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="title class_">Language</span>_list)&#123;</span><br><span class="line">          <span class="keyword">if</span>(i==<span class="number">0</span>)&#123;output_str=<span class="string">&#x27;【&#x27;</span>+<span class="title class_">Language</span>_list[<span class="number">0</span>]+<span class="string">&#x27;】&#x27;</span>+<span class="title class_">LanguageApp</span>.<span class="title function_">translate</span>(userMessage, <span class="string">&quot;&quot;</span>, <span class="title class_">Language</span>_list[<span class="number">0</span>])&#125;</span><br><span class="line">          <span class="keyword">else</span>&#123;</span><br><span class="line">            output_str=output_str+<span class="string">&#x27;\n【&#x27;</span>+<span class="title class_">Language</span>_list[i]+<span class="string">&#x27;】&#x27;</span>+<span class="title class_">LanguageApp</span>.<span class="title function_">translate</span>(userMessage, <span class="string">&quot;&quot;</span>, <span class="title class_">Language</span>_list[i]);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">4</span>).<span class="title function_">setValue</span>(today);</span><br><span class="line">        reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:output_str&#125;]</span><br><span class="line">        <span class="title function_">reply_message</span>(replyToken,reply);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span>&#123; <span class="comment">//若是有存在Excel但檢查鎖定欄位未使用中False則提示錯誤</span></span><br><span class="line">        reply=[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:<span class="string">&#x27;錯誤：請先設定【完成】\nError:Please set 【Finish】 first&#x27;</span>&#125;]</span><br><span class="line">        <span class="title function_">reply_message</span>(replyToken,reply);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="支程式-translate-other-function"><a href="#支程式-translate-other-function" class="headerlink" title="支程式(translate_other_function)"></a>支程式(translate_other_function)</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 將對應的Excel存放位置(Translate_N)的資料清空</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sheet_cancel</span>(<span class="params">Translate_N</span>)&#123;</span><br><span class="line">  sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">2</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">12</span>).<span class="title function_">setValue</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>).<span class="title function_">setValue</span>(<span class="string">&#x27;false&#x27;</span>);</span><br><span class="line">  sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">4</span>).<span class="title function_">setValue</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  sheet_translator.<span class="title function_">getRange</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">1</span>,<span class="number">11</span>,<span class="number">1</span>,<span class="number">1</span>).<span class="title function_">setValue</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用groupid搜尋是否在translate_group_double表單內，若在裡面則回傳Translate_N數值(第幾組)，反之則回傳false</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">translate_groupid_search_N</span>(<span class="params">groupid</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="title class_">Translate</span>_N_Max; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(groupid==sheet_translator.<span class="title function_">getSheetValues</span>(<span class="number">4</span>*i+<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>)[<span class="number">0</span>][<span class="number">0</span>])&#123;</span><br><span class="line">      <span class="keyword">return</span> i</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在translate_group_double表單內搜尋是否有空位，若有則回傳Translate_N數值(第幾組)，反之則回傳false</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">translate_vain_N</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="title class_">Translate</span>_N_Max; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;&quot;</span>==sheet_translator.<span class="title function_">getSheetValues</span>(<span class="number">4</span>*i+<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>)[<span class="number">0</span>][<span class="number">0</span>])&#123;</span><br><span class="line">      <span class="keyword">return</span> i</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在translate_group_mutichat表單內搜尋這個人所選過的翻譯語言，若有則回傳語言組成的矩陣，反之則回傳false</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">translate_group_language</span>(<span class="params">groupid</span>)&#123;</span><br><span class="line">  <span class="title class_">Translate</span>_N=<span class="title function_">translate_groupid_search_N</span>(groupid)</span><br><span class="line">  <span class="title class_">Language</span>_list=[]</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="title class_">Group</span>_language_Max; i++)&#123;</span><br><span class="line">    data=sheet_translator.<span class="title function_">getSheetValues</span>(<span class="number">4</span>*<span class="title class_">Translate</span>_N+<span class="number">3</span>, <span class="number">3</span>+i, <span class="number">1</span>, <span class="number">1</span>)[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;&quot;</span>!=data)&#123;</span><br><span class="line">      <span class="keyword">var</span> count=<span class="title class_">Language</span>_list.<span class="title function_">push</span>(data.<span class="title function_">replace</span>(<span class="regexp">/ */</span>, <span class="string">&#x27;&#x27;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(count==<span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Language</span>_list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 傳入groupid後，計算並回傳群組的人數</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">group_member_counter</span>(<span class="params">groupid</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> group_member_counter_object=<span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(<span class="string">&#x27;https://api.line.me/v2/bot/group/&#x27;</span>+groupid+<span class="string">&#x27;/members/count&#x27;</span>, &#123;</span><br><span class="line">    <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json; charset=UTF-8&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">parseInt</span>(group_member_counter_object.<span class="title function_">getContentText</span>().<span class="title function_">replace</span>(<span class="regexp">/[^0-9]/ig</span>,<span class="string">&quot;&quot;</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用userid搜尋並回傳username(使用者名稱)</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">userid_to_username</span>(<span class="params">userid</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> username_object=<span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(<span class="string">&quot;https://api.line.me/v2/bot/profile/&quot;</span>+userid, &#123;</span><br><span class="line">    <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json; charset=UTF-8&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">JSON</span>.<span class="title function_">parse</span>(username_object.<span class="title function_">getContentText</span>()).<span class="property">displayName</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="程式碼-網址"><a href="#程式碼-網址" class="headerlink" title="程式碼(網址)"></a>程式碼(網址)</h1><ul>
+<li>最後附上我的程式碼讓大家可以觀賞</li>
+<li>部分簡單重複的內容就不在這邊說明，但我都放在這裡面</li>
+<li>之後由於越多人使用本機器人，所以程式碼有更新，若有需要的人可以直接私訊我喔~<blockquote>
+<p><a target="_blank" rel="noopener" href="https://script.google.com/d/1rQo2HmBlEZTMAFfp-ZPJprK42NoNNWZBRFPd1WydHGcwNKiVnPJ6JgKf/edit?usp=sharing">https://script.google.com/d/1rQo2HmBlEZTMAFfp-ZPJprK42NoNNWZBRFPd1WydHGcwNKiVnPJ6JgKf/edit?usp=sharing</a></p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="檢討"><a href="#檢討" class="headerlink" title="檢討"></a>檢討</h1><p>由於整個LINE BOT的功能是一個一個被加上去的，所以一開始程式碼也是相對的簡單一兩個if-else而已，到最後程式龐大了起來就變成雜亂不堪，又加上我個人也覺得整體程式碼寫法過於簡單，但我也懶得修改了，哈哈哈哈~~<br>再請各位耐心觀賞了 (●’◡’●)</p>
+<hr>
+<h1 id="謝謝"><a href="#謝謝" class="headerlink" title="謝謝~"></a>謝謝~</h1><p>在當初我研究LINE BOT的時候也碰到了很多的困難，完全都是靠著各大神的資料來讓我一步步的來完成，非常謝謝~~<br>最後，也感謝各個平台與各大神借我引用於此，讓更多人能夠學習LINE BOT並獲得其中的樂趣，若有任何冒犯或抄襲之虞，請向我告知並移除內容，感謝~~<br>另外有任何想要跟我討論，或是想要給我建議的，都可以留言跟我說喔~~</p>
+<script>
+setTimeout(function(){
+    try {
+        document.getElementsByClassName("post-nav")[0].innerHTML='<a class="next" rel="next" href="/2022/11/15/LINE_BOT_5/">【LINE BOT 翻譯機器人】(5) LINE 各事件 event & 各訊息 Message 及 官方文獻</a>'
+    } catch (e) {}
+    
+},100); 
+</script>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Albert Wang</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Posts/"># Posts</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/01/11/GPT-3_LINE_BOT_1/">【GPT-3 LINE BOT】(1) 前情提要 介紹ChatGPT&GPT-3</a>
+            
+            
+            <a class="next" rel="next" href="/2022/11/15/LINE_BOT_5/">【LINE BOT 翻譯機器人】(5) LINE 各事件 event & 各訊息 Message 及 官方文獻</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Albert Wang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

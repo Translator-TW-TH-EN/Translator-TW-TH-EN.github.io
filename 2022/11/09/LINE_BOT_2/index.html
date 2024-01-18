@@ -15,7 +15,7 @@
 
 
 
-<title>Hello World | Hexo</title>
+<title>【LINE BOT 翻譯機器人】(2) 建立 LINE BOT 及 Google Apps Script 專案 | Hexo</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">【LINE BOT 翻譯機器人】(2) 建立 LINE BOT 及 Google Apps Script 專案</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 19, 2024&nbsp;&nbsp;00:30:06</a>
+                        Date: <a href="#">十一月 9, 2022&nbsp;&nbsp;00:00:00</a>
                         </span>
                     
                     
@@ -220,19 +220,29 @@
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由於整個的LINE BOT為一個專案的結合體，所以我會將其一一的猜解成小部分的主題，經過介紹後，最後再展示全部的程式碼，並開放連結讓大家可以直接的親眼看到全部的code。<br>另外，若想要直接看程式碼的朋友可以直接跳到後面喔~~</p>
+<hr>
+<h1 id="創立-LINE-BOT"><a href="#創立-LINE-BOT" class="headerlink" title="創立 LINE BOT"></a>創立 LINE BOT</h1><p>依照各位大神的教學就能夠創立自己的LINE BOT了喔!!</p>
+<blockquote>
+<p>建立第一支LINE Bot (2020版)<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gNOYoLOFzpM&ab_channel=developertw">https://www.youtube.com/watch?v=gNOYoLOFzpM&amp;ab_channel=developertw</a><br>建立 Line Bot(1)<br><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10260855">https://ithelp.ithome.com.tw/articles/10260855</a><br>建立 Line Bot(2)<br><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10261174">https://ithelp.ithome.com.tw/articles/10261174</a><br>LINE Official Account Manager (官方)<br><a target="_blank" rel="noopener" href="https://manager.line.biz/">https://manager.line.biz/</a></p>
+</blockquote>
+<p>在建立好之後，把加入群組的功能打開(Enabled)，另外兩個依照個人需求調整，我個人是都關掉啦XD<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QQQ.jpg"></p>
+<hr>
+<h1 id="建立-Google-Apps-Script-專案"><a href="#建立-Google-Apps-Script-專案" class="headerlink" title="建立 Google Apps Script 專案"></a>建立 Google Apps Script 專案</h1><p>1.首先進入官方的Google Apps Script網頁</p>
+<blockquote>
+<p>Google Apps Script<br><a target="_blank" rel="noopener" href="https://script.google.com/home">https://script.google.com/home</a></p>
+</blockquote>
+<p>2.建立一個屬於這LINE BOT的專案<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QQWQ.jpg"></p>
+<p>3.進入專案內，打入間單的測試用code，並<strong>新增部屬</strong><br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QWQWWQQ.jpg"></p>
+<p>4.部屬為<strong>網頁應用程式</strong><br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QQWQQQ.jpg"></p>
+<p>5.給予權限(由於是自己的東西，遇到安全性問題時可以直接點選<strong>unsafe</strong>)<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QQWQQQQ.jpg"></p>
+<p>6.記錄下網址並點選完成<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QWQWQ.jpg"></p>
+<p>7.去到原先創立LINE BOT的官方網頁並改掉<strong>Webhook URL</strong>(要記得啟用Webhook喔~)<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/WWQQWW.jpg"></p>
+<p>8.出現<strong>Success</strong>就是成功了喔~<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/messageImage_1668090247318.jpg"></p>
+<p>9.另外我也提供一些其他創作者的資料讓大家參考</p>
+<blockquote>
+<p>【Day 3】Google Apps Script - 建立 Apps Script 的三種方式<br><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10266876">https://ithelp.ithome.com.tw/articles/10266876</a><br>LineBot 教學 | Line Messaging API | Google Apps Script<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=GeOruaxqAU4&ab_channel=%E5%90%B3%E4%BD%B3%E9%91%AB">https://www.youtube.com/watch?v=GeOruaxqAU4&amp;ab_channel=吳佳鑫</a><br>部署 Google App Script 專案(2) &amp; Line Bot 簡單回應訊息<br><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10261677">https://ithelp.ithome.com.tw/articles/10261677</a><br>LINE Bot：用 Google Apps Script 建立簡易網站監測機器人<br><a target="_blank" rel="noopener" href="https://www.letswrite.tw/line-bot-gas-monitor/">https://www.letswrite.tw/line-bot-gas-monitor/</a></p>
+</blockquote>
 
         </div>
 
@@ -255,6 +265,10 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/Posts/"># Posts</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -265,8 +279,10 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2022/11/13/LINE_BOT_3/">【LINE BOT 翻譯機器人】(3) 連結 Google sheet 與 LanguageApp 翻譯功能</a>
             
-            <a class="next" rel="next" href="/2023/06/15/LeetCode2348/">2348. Number of Zero-Filled Subarrays</a>
+            
+            <a class="next" rel="next" href="/2022/11/03/LINE_BOT_1/">【LINE BOT 翻譯機器人】(1) 操作說明與應用</a>
             
         </section>
 

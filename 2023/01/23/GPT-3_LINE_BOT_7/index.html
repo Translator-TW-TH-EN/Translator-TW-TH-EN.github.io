@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Albert Wang">
+
+
+    <meta name="subtitle" content="歡迎來到這裡">
+
+
+
+
+<title>【GPT-3 LINE BOT】(7) 同場加映：用 Python &amp; Google Apps Script 玩 Hugging Face | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/my_js.js"></script>
+    
+    <script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Albert&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Albert&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">【GPT-3 LINE BOT】(7) 同場加映：用 Python &amp; Google Apps Script 玩 Hugging Face</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Albert Wang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 23, 2023&nbsp;&nbsp;00:00:00</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="取得-API-TOKEN"><a href="#取得-API-TOKEN" class="headerlink" title="取得 API_TOKEN"></a>取得 API_TOKEN</h1><blockquote>
+<p>官方網站<br><a target="_blank" rel="noopener" href="https://huggingface.co/">Hugging Face</a></p>
+</blockquote>
+<p>登入後，只要去管理頁面找到 Access Tokens ，創立一個屬於你的 Token 就好了<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/GPT-3-LINE-BOT/OPISADFIOJsdf9841465j.png"></p>
+<hr>
+<h1 id="Python-程式碼"><a href="#Python-程式碼" class="headerlink" title="Python 程式碼"></a>Python 程式碼</h1><p>我簡單先用 Python 玩一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我記得 json 函式庫不用特別下載，預設就有了</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># 沒有 requests 函式庫的人要記得用 `pip install requests` 下載喔~</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">API_TOKEN = <span class="string">&quot;hf_l....&quot;</span>  <span class="comment"># 請換上你的 API_TOKEN</span></span><br><span class="line">Model_ID = <span class="string">&quot;facebook/blenderbot-3B&quot;</span>  <span class="comment"># 可以換成你想要使用的 Model</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">query</span>(<span class="params">payload</span>):</span><br><span class="line">    headers = &#123;<span class="string">&quot;Authorization&quot;</span>: <span class="string">f&quot;Bearer <span class="subst">&#123;API_TOKEN&#125;</span>&quot;</span>&#125;</span><br><span class="line">    API_URL = <span class="string">&quot;https://api-inference.huggingface.co/models/&quot;</span> + Model_ID</span><br><span class="line">    data = json.dumps(payload)</span><br><span class="line">    response = requests.request(<span class="string">&quot;POST&quot;</span>, API_URL, headers=headers, data=data)</span><br><span class="line">    <span class="keyword">return</span> json.loads(response.content.decode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line"></span><br><span class="line">data = query(&#123;<span class="string">&quot;inputs&quot;</span>: <span class="string">&quot;HI&quot;</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(data) <span class="comment"># 可以自行看他回傳什麼</span></span><br><span class="line"><span class="built_in">print</span>(data[<span class="string">&quot;generated_text&quot;</span>]) </span><br><span class="line"><span class="comment"># Hello, how are you today??? or Hi! How are you doing?</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Google-Apps-Script-內部檔案分布"><a href="#Google-Apps-Script-內部檔案分布" class="headerlink" title="Google Apps Script 內部檔案分布"></a>Google Apps Script 內部檔案分布</h1><p>再來用 Google Apps Script 玩一下<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/GPT-3-LINE-BOT/SDFFFFFFF.jpg"></p>
+<h1 id="主程式原始碼-doPost"><a href="#主程式原始碼-doPost" class="headerlink" title="主程式原始碼(doPost)"></a>主程式原始碼(doPost)</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>=<span class="string">&quot;&quot;</span>  <span class="comment">// 請放上自己的CHANNEL_ACCESS_TOKEN</span></span><br><span class="line"><span class="keyword">var</span> API_token = <span class="string">&quot;hf_l....&quot;</span>  <span class="comment">// 請換上你的 API_TOKEN</span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Model</span>_ID = <span class="string">&quot;facebook/blenderbot-3B&quot;</span> <span class="comment">// 可以換成你想要使用的 Model</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">doPost</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="comment">//從接收到的訊息中取出 replyToken 和發送的訊息文字資訊 </span></span><br><span class="line">  <span class="keyword">var</span> msg = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(e.<span class="property">postData</span>.<span class="property">contents</span>);</span><br><span class="line">  <span class="keyword">var</span> replyToken = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">replyToken</span>;</span><br><span class="line">  <span class="keyword">var</span> type = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">type</span>;</span><br><span class="line">  <span class="keyword">var</span> userid = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">source</span>.<span class="property">userId</span>;</span><br><span class="line">  <span class="keyword">var</span> groupid = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">source</span>.<span class="property">groupId</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 只接收純文字的訊息</span></span><br><span class="line">  <span class="keyword">if</span> (type == <span class="string">&#x27;message&#x27;</span> &amp;&amp; msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">message</span>.<span class="property">text</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> userMessage = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">message</span>.<span class="property">text</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="number">0</span> &#125;</span><br><span class="line"></span><br><span class="line">  reply_msg = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title function_">hf_chat_api</span>(userMessage))[<span class="string">&quot;generated_text&quot;</span>]</span><br><span class="line">  <span class="title function_">reply_message</span>(replyToken, [&#123; <span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>, <span class="string">&#x27;text&#x27;</span>: reply_msg &#125;])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="hf-chat-api"><a href="#hf-chat-api" class="headerlink" title="hf_chat_api()"></a>hf_chat_api()</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hf_chat_api</span>(<span class="params">message</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(<span class="string">&#x27;https://api-inference.huggingface.co/models/&#x27;</span>+<span class="title class_">Model</span>_ID, &#123;</span><br><span class="line">    <span class="string">&#x27;method&#x27;</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + API_token,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;payload&quot;</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(message)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="程式碼-網址"><a href="#程式碼-網址" class="headerlink" title="程式碼(網址)"></a>程式碼(網址)</h1><p>去吧~ 我都放在連結裡面了~</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://script.google.com/d/1DsfQ8u-mp7oP_qOxwA9rjXlG8gAvM16lUwOLd7roFXEzd_DmU3dtOENF/edit?usp=sharing">https://script.google.com/d/1DsfQ8u-mp7oP_qOxwA9rjXlG8gAvM16lUwOLd7roFXEzd_DmU3dtOENF/edit?usp=sharing</a></p>
+</blockquote>
+<hr>
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/docs/api-inference/detailed_parameters">https://huggingface.co/docs/api-inference/detailed_parameters</a></p>
+</blockquote>
+<hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">若以上有任何的錯誤都歡迎留言跟我說</span><br><span class="line">我會非常感謝你的(ﾉ&gt;ω&lt;)ﾉ</span><br></pre></td></tr></table></figure>
+
+<script>
+setTimeout(function(){
+    try {
+        document.getElementsByClassName("post-nav")[0].innerHTML='<a class="next" rel="next" href="/2023/01/19/GPT-3_LINE_BOT_6/">【GPT-3 LINE BOT】(6) 同場加映：Hugging Face 串接 LINE BOT</a>'
+    } catch (e) {}
+    
+},100); 
+</script>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Albert Wang</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Posts/"># Posts</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/02/12/LeetCode797/">797. All Paths From Source to Target</a>
+            
+            
+            <a class="next" rel="next" href="/2023/01/19/GPT-3_LINE_BOT_6/">【GPT-3 LINE BOT】(6) 同場加映：Hugging Face 串接 LINE BOT</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Albert Wang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

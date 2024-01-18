@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Albert Wang">
+
+
+    <meta name="subtitle" content="歡迎來到這裡">
+
+
+
+
+<title>【LINE BOT 翻譯機器人】(4) 用 Google Apps Script API 傳送 LINE 訊息 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/my_js.js"></script>
+    
+    <script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Albert&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Albert&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/posts">Posts</a>
+                
+                    <a class="menu-item" href="/leetcode">LeetCode</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://forms.gle/WFkwdjLC41zmUp7X9">Donate</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">【LINE BOT 翻譯機器人】(4) 用 Google Apps Script API 傳送 LINE 訊息</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Albert Wang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 14, 2022&nbsp;&nbsp;00:00:00</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="認證身份-channel-access-token"><a href="#認證身份-channel-access-token" class="headerlink" title="認證身份 channel access token"></a>認證身份 channel access token</h1><ul>
+<li>記得有用到訊息傳送就必須要用到channel access token喔~<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//認證身份 channel_access_token</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>=<span class="string">&#x27;??????&#x27;</span> <span class="comment">//輸入自己 LINE BOT 的 channel_access_token</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="回傳-User-ID-機器人"><a href="#回傳-User-ID-機器人" class="headerlink" title="回傳 User ID 機器人"></a>回傳 User ID 機器人</h1><p>1.首先到官方網站確認自己LINE BOT的channel access token並複製下來<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/1668091067676.jpg"></p>
+<p>2.進入Google Apps Script專案內，打入簡單的測試用code</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//認證身份 channel_access_token</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>=<span class="string">&#x27;??????&#x27;</span> <span class="comment">//輸入自己 LINE BOT 的 channel_access_token</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//主程式跑的地方(main)</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">doPost</span>(<span class="params">e</span>)  &#123;  <span class="comment">//當網頁有Post請求時就會依據網址來執行這doPost</span></span><br><span class="line">  <span class="keyword">var</span> msg= <span class="title class_">JSON</span>.<span class="title function_">parse</span>(e.<span class="property">postData</span>.<span class="property">contents</span>); <span class="comment">//將事件(e)內的文字訊息解析出來</span></span><br><span class="line">  <span class="comment">//msg內部存放著全部LINE事件產生的全部訊息</span></span><br><span class="line">  <span class="keyword">var</span> replyToken = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">replyToken</span>; <span class="comment">//replyToken是每個能夠reply的事件一定會附屬的令牌</span></span><br><span class="line">  <span class="keyword">var</span> userMessage = msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">message</span>.<span class="property">text</span>; <span class="comment">//解析使用者傳出的訊息內容</span></span><br><span class="line">  <span class="keyword">var</span> userid=msg.<span class="property">events</span>[<span class="number">0</span>].<span class="property">source</span>.<span class="property">userId</span>; <span class="comment">//專屬於你的User ID</span></span><br><span class="line">  <span class="title function_">reply_message</span>(replyToken,userid); <span class="comment">//使用reply_message這function來回覆訊息</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 這是對於訊息回覆的程式碼</span></span><br><span class="line"><span class="comment">// https://api.line.me/v2/bot/message/reply 為官方公告的 reply api</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reply_message</span>(<span class="params">replyToken,reply,url=<span class="string">&#x27;https://api.line.me/v2/bot/message/reply&#x27;</span></span>)&#123;</span><br><span class="line">  <span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(url, &#123;</span><br><span class="line">      <span class="string">&#x27;headers&#x27;</span>: &#123; <span class="comment">//JavaScript的headers</span></span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json; charset=UTF-8&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>, <span class="comment">//帶入LINE BOT的channel_access_token</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&#x27;method&#x27;</span>: <span class="string">&#x27;post&#x27;</span>, <span class="comment">//使用POST的方式回傳</span></span><br><span class="line">      <span class="string">&#x27;payload&#x27;</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123; <span class="comment">//將訊息轉為JSON格式，JavaScript常用JSON傳輸資料</span></span><br><span class="line">        <span class="string">&#x27;replyToken&#x27;</span>: replyToken,  <span class="comment">//每個reply事件專屬的replyToken</span></span><br><span class="line">        <span class="string">&#x27;messages&#x27;</span>: [&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>:reply&#125;] <span class="comment">//回傳文字訊息，內容為reply也就是userMessage</span></span><br><span class="line">        &#125;),</span><br><span class="line">    &#125;);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>3.按下<strong>儲存</strong>並依照上一篇教學方式<strong>新增部屬</strong>  (方式如同上一篇)<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/WQQ.jpg"></p>
+<p>4.去到原先創立LINE BOT的官方網頁並改掉<strong>Webhook URL</strong>  (同上一篇)<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/QWQWQW.jpg"></p>
+<p>5.最後去跟LINE BOT對話，他將會回覆你的User ID<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/ASDDSA.jpg"></p>
+<hr>
+<h1 id="LINE-BOT-訊息傳送方式"><a href="#LINE-BOT-訊息傳送方式" class="headerlink" title="LINE BOT 訊息傳送方式"></a>LINE BOT 訊息傳送方式</h1><ul>
+<li>LINE BOT 總共提供了三種的訊息傳送的方式<br>1.reply message (有一對一回覆的限制，而且一次只能回覆一次的限制)<br>2.push message (可以在任何的時機下自由的向一個地方傳送訊息)<br>3.multicast message (就是一個可以一次向多個地方傳送訊息的功能，屬於PUSH的加強版)</li>
+<li><strong>其中reply是完全免費；而push、multicast兩個合計每個月都有一定的上限次數</strong></li>
+</ul>
+<h1 id="利用-Google-Apps-Script-傳送-LINE-訊息"><a href="#利用-Google-Apps-Script-傳送-LINE-訊息" class="headerlink" title="利用 Google Apps Script 傳送 LINE 訊息"></a>利用 Google Apps Script 傳送 LINE 訊息</h1><p>1.reply message</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上方的 reply_message 就是用來回覆 reply message 的</span></span><br><span class="line"><span class="comment">// 為了節省版面這邊就不在次附上</span></span><br></pre></td></tr></table></figure>
+<p>2.multicast&#x2F;push message</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 為了方便起見，我個人都只有使用multicast來傳送訊息，所以這邊就附上multicast的程式碼</span></span><br><span class="line"><span class="comment">// 另外若想要用push來傳送訊息就只需要更改成push以及單純使用一個使用者(userid)就可以了</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">push_message_userid</span>(<span class="params">reply,userid</span>)&#123;</span><br><span class="line">  <span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(<span class="string">&#x27;https://api.line.me/v2/bot/message/multicast&#x27;</span>, &#123;</span><br><span class="line">      <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json; charset=UTF-8&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&#x27;method&#x27;</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;payload&#x27;</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="string">&#x27;to&#x27;</span>:[userid],</span><br><span class="line">        <span class="string">&#x27;messages&#x27;</span>: [&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>: reply&#125;]</span><br><span class="line">        &#125;),</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="傳送測試訊息"><a href="#傳送測試訊息" class="headerlink" title="傳送測試訊息"></a>傳送測試訊息</h1><ul>
+<li>我個人常常運用push_message_userid傳送給自己來Debug<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//認證身份 channel_access_token</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>=<span class="string">&#x27;??????&#x27;</span> <span class="comment">//輸入自己 LINE BOT 的 channel_access_token</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">myfunction</span>(<span class="params">e</span>)&#123;</span><br><span class="line">  userid=<span class="string">&#x27;??????&#x27;</span> <span class="comment">//輸入自己 userid (剛剛上面機器人回傳的那亂碼)</span></span><br><span class="line">  <span class="title function_">push_message_userid</span>(<span class="string">&quot;測試文字&quot;</span>,userid)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 記得push_message_userid也要放在檔案內喔~~</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">push_message_userid</span>(<span class="params">reply,userid</span>)&#123;</span><br><span class="line">  <span class="title class_">UrlFetchApp</span>.<span class="title function_">fetch</span>(<span class="string">&#x27;https://api.line.me/v2/bot/message/multicast&#x27;</span>, &#123;</span><br><span class="line">      <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json; charset=UTF-8&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + <span class="variable constant_">CHANNEL_ACCESS_TOKEN</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&#x27;method&#x27;</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;payload&#x27;</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="string">&#x27;to&#x27;</span>:[userid],</span><br><span class="line">        <span class="string">&#x27;messages&#x27;</span>: [&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;text&#x27;</span>,<span class="string">&#x27;text&#x27;</span>: reply&#125;]</span><br><span class="line">        &#125;),</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>在Google Apps Script執行完後</strong>，LINE就會<strong>馬上</strong>跳出訊息了~<br><img src="https://raw.githubusercontent.com/albert20699/linebot/main/Translator/ASDDDSA.jpg"></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Albert Wang</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Posts/"># Posts</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/11/15/LINE_BOT_5/">【LINE BOT 翻譯機器人】(5) LINE 各事件 event & 各訊息 Message 及 官方文獻</a>
+            
+            
+            <a class="next" rel="next" href="/2022/11/13/LINE_BOT_3/">【LINE BOT 翻譯機器人】(3) 連結 Google sheet 與 LanguageApp 翻譯功能</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Albert Wang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
