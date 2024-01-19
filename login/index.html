@@ -51,10 +51,10 @@
         var phoneValue = document.getElementById('phone').value;
 
         // 檢查是否輸入了電話號碼
-        // 只允許包含 +、-、空格和數字
-        var regex = /^[\+\-\d\s]+$/;
-        if (phoneValue.trim() === '' && regex.test(inputString)) {
-            alert('請輸入正確電話號碼');
+        // 只允許包含數字
+        var regex = /^\d+$/;
+        if (phoneValue.trim() === '' || !regex.test(phoneValue)) {
+            alert('請輸入正確電話號碼，只接受數字!');
             return;
         }
 
@@ -64,7 +64,7 @@
         // 在這裡可以添加額外的邏輯或向伺服器發送請求的部分
 
         // 跳轉到其他頁面或執行其他操作
-        window.location.href = "/order"; 
+        window.location.href = "/order";
     }
 </script>
 

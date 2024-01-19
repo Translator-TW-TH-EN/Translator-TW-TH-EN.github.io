@@ -12,7 +12,7 @@ window.onload = function () {
 	if (!phoneCookie) {
 		// 強制跳轉到 login 頁面
 		window.location.href = "/login";
+	} else {
+		document.querySelector('header').textContent = "登入帳號 Phone：" + phoneCookie;
 	}
-};
-
-
+}

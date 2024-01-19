@@ -20,7 +20,8 @@
     </header>
 
     <div class="container">
-            <div class="container-item container-choose" onclick="showDetails('Burger', 'Delicious Burger', '$10', 'burger.jpg')">
+        <div class="container-item container-choose"
+            onclick="showDetails('Burger', 'Delicious Burger', '$10', 'burger.jpg')">
             <img src="burger.jpg" alt="Burger">
             <h3>Burger</h3>
             <p>Delicious Burger</p>
@@ -38,9 +39,8 @@
     </div>
 
     <footer>
-        <a href="/login">登入</a>
+        <a href="#" onclick="logOut()">登出</a>
     </footer>
-
 
     <script>
         function showDetails(name, description, price, image) {
@@ -52,6 +52,12 @@
 
         function hideDetails() {
             document.querySelector('.container-details').style.display = 'none';
+        }
+
+        function logOut() {
+            var pastDate = new Date(0);
+            document.cookie = "phone=; expires=" + pastDate.toUTCString() + "; path=/";
+            window.location.href = "/login";
         }
     </script>
 </body>
