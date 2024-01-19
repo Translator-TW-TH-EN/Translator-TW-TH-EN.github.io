@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <!-- 載入資料 -->
+    <script src="../data/common.js"></script>
+    <script src="../data/loginCheck.js"></script>
+    <script src="../data/data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../data/styles.css">
+</head>
+
+<body>
+
+    <header>
+        登入現有註冊新帳號
+    </header>
+
+    <div class="container">
+        <div class="container-item" style="width: 350px;">
+            <div class="form-field">
+                <label for="username">帳號：</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-field">
+                <label for="email">Email信箱：</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-field">
+                <label for="phone">電話：</label>
+                <input type="text" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-field">
+                <label for="password">密碼：</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="container-choose form-field">
+                <button onclick="submitRegistration()">註冊</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="container-item" style="width: 350px;">
+            <div class="form-field">
+                <label for="username">還沒有帳號，我要註冊帳號</label>
+            </div>
+
+            <div class="container-choose form-field">
+                <button onclick="submitRegistration()">註冊</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <a href="/register">註冊新帳號</a>
+    </footer>
+</body>
+
+</html>

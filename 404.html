@@ -1,4 +1,70 @@
 
-<script>
-	location.href = 'https://tsamcservice.github.io/card'; // 記得改成自己網址 Url
-</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>404 Page Not Found</title>
+	<!-- 載入資料 -->
+	<script src="../data/common.js"></script>
+	<script src="../data/loginCheck.js"></script>
+	<script src="../data/data.js"></script>
+	<link rel="stylesheet" type="text/css" href="../data/styles.css">
+
+	<style>
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+		}
+
+		.error-message {
+			text-align: center;
+			color: #333;
+			font-size: 2em;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.countdown {
+			font-size: 1.5em;
+			color: #555;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="error-message">404 (頁面錯誤)</div>
+	<div class="countdown" id="countdown">跳轉中...</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			// 倒數計時秒數
+			var countdownSeconds = 5;
+
+			// 顯示倒數計時
+			var countdownElement = document.getElementById("countdown");
+			countdownElement.textContent = countdownSeconds + " 秒後跳轉...";
+
+			// 啟動倒數計時器
+			var countdownInterval = setInterval(function () {
+				countdownSeconds--;
+
+				if (countdownSeconds <= 0) {
+					clearInterval(countdownInterval); // 停止計時器
+					window.location.href = "/order";
+				} else {
+					countdownElement.textContent = countdownSeconds + " 秒後跳轉...";
+				}
+			}, 1000);
+		});
+	</script>
+</body>
+
+</html>

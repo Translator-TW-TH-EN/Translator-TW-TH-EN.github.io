@@ -1,13 +1,13 @@
 // google Apps Script 傳送訊息
-async function sendRequest(status, userId, dataCard = "", isDebug = true) {
-	if (!status || !userId) {
+async function sendRequest(status, phoneCookie, data = {}, isDebug = true) {
+	if (!status || !phoneCookie) {
 		alert("向google apps script寄送請求時\n有效參數不足");
 		return;
 	}
 
 	const url = googleAppsScriptUrl;
 	try {
-		const sendData = { status: status, userId: userId, card: dataCard };
+		const sendData = { status: status, phoneCookie: phoneCookie, data: data };
 
 		// 將資料轉換成查詢字串
 		const queryString = new URLSearchParams(sendData).toString();
@@ -27,7 +27,7 @@ async function sendRequest(status, userId, dataCard = "", isDebug = true) {
 	}
 }
 
-// 自己的 flex2html (處理 原flex2html 錯誤)
+// 自己的 flex2html (處理 原flex2html 錯誤) 目前沒用到!!!!!!!!
 function my_flexToHtml(flex2htmlElementName, flexJsonList) {
 	flexJsonMessage = {
 		type: "flex",
@@ -57,4 +57,16 @@ function my_flexToHtml(flex2htmlElementName, flexJsonList) {
 	wrongChatboxElements.forEach(function (element) {
 		element.style.paddingTop = "20px";
 	});
+}
+
+// 取得指定名稱的 cookie 值
+function getCookie(name) {
+    var cookies = document.cookie.split("; ");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split("=");
+        if (cookie[0] === name) {
+            return cookie[1];
+        }
+    }
+    return null;
 }

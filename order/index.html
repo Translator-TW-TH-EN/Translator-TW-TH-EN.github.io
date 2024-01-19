@@ -6,117 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Order Page</title>
-    <style>
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            background-image: url('your-image.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            overflow: hidden;
-            background: linear-gradient(45deg, #d0ecff, #f7e2ff, #ffecec, #c9e9ff);
-            background-size: 500% 500%;
-            animation: gradientAnimation 15s infinite;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .food-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px auto 0px auto;
-        }
-
-        .food-item {
-            width: 200px;
-            background-color: #fff;
-            border-radius: 8px;
-            margin: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out;
-        }
-
-
-
-        .food-item:hover {
-            transform: scale(1.05);
-        }
-
-        .food-item img {
-            width: 100%;
-            border-radius: 8px;
-        }
-
-        .food-details {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .details-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
-            width: 80%;
-            text-align: center;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 20px;
-        }
-    </style>
+    <!-- 載入資料 -->
+    <script src="../data/common.js"></script>
+    <script src="../data/loginCheck.js"></script>
+    <script src="../data/data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
 <body>
@@ -125,32 +19,27 @@
         Food Order Page
     </header>
 
-    <div class="food-container">
-        <!-- Food Items -->
-        <div class="food-item" onclick="showDetails('Burger', 'Delicious Burger', '$10', 'burger.jpg')">
+    <div class="container">
+            <div class="container-item container-choose" onclick="showDetails('Burger', 'Delicious Burger', '$10', 'burger.jpg')">
             <img src="burger.jpg" alt="Burger">
             <h3>Burger</h3>
             <p>Delicious Burger</p>
             <p>$10</p>
         </div>
-
-        <!-- Add more food items here -->
     </div>
 
-    <!-- Food Details Modal -->
-    <div class="food-details" id="foodDetails">
+    <div class="container-details" id="foodDetails">
         <div class="details-content">
             <span class="close-btn" onclick="hideDetails()">&times;</span>
             <h2 id="foodName"></h2>
             <p id="foodDescription"></p>
             <p id="foodPrice"></p>
-            <!-- Add more details here -->
         </div>
     </div>
 
     <footer>
-        <a href="#">登入</a>
-     </footer>
+        <a href="/login">登入</a>
+    </footer>
 
 
     <script>
@@ -158,13 +47,11 @@
             document.getElementById('foodName').innerText = name;
             document.getElementById('foodDescription').innerText = description;
             document.getElementById('foodPrice').innerText = price;
-            // Add more details here
-            // You can also update the modal content with the clicked food's information
-            document.querySelector('.food-details').style.display = 'flex';
+            document.querySelector('.container-details').style.display = 'flex';
         }
 
         function hideDetails() {
-            document.querySelector('.food-details').style.display = 'none';
+            document.querySelector('.container-details').style.display = 'none';
         }
     </script>
 </body>

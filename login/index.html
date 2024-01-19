@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <!-- 載入資料 -->
+    <script src="../data/common.js"></script>
+    <script src="../data/loginCheck.js"></script>
+    <script src="../data/data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../data/styles.css">
+</head>
+
+<body>
+
+    <header>
+        登入
+    </header>
+
+    <div class="container">
+        <div class="container-item" style="width: 350px;">
+            <div style="justify-content: center; display: flex; height: 50px; font-weight: bold; align-items: center;">
+                <span>只要輸入電話，即可直接登入使用</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="container-item" style="width: 350px;">
+            <div class="form-field">
+                <label for="phone">電話：</label>
+                <input type="text" id="phone" name="phone" required>
+            </div>
+
+            <div class="container-choose form-field">
+                <button onclick="submitLogin()">登入</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/order">主頁</a>
+    </footer>
+
+</body>
+
+<script>
+    function submitLogin() {
+        var phoneValue = document.getElementById('phone').value;
+
+        // 檢查是否輸入了電話號碼
+        // 只允許包含 +、-、空格和數字
+        var regex = /^[\+\-\d\s]+$/;
+        if (phoneValue.trim() === '' && regex.test(inputString)) {
+            alert('請輸入正確電話號碼');
+            return;
+        }
+
+        // 存儲電話號碼到 cookie 中
+        document.cookie = "phone=" + encodeURIComponent(phoneValue) + "; path=/";
+
+        // 在這裡可以添加額外的邏輯或向伺服器發送請求的部分
+
+        // 跳轉到其他頁面或執行其他操作
+        window.location.href = "/order"; 
+    }
+</script>
+
+</html>
