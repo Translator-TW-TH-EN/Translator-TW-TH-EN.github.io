@@ -1,13 +1,13 @@
 // google Apps Script 傳送訊息
-async function sendRequest(status, phoneCookie, data = {}, isDebug = true) {
-	if (!status || !phoneCookie) {
+async function sendRequest(status, phone, data = {}, isDebug = true) {
+	if (!status || !phone) {
 		alert("向google apps script寄送請求時\n有效參數不足");
 		return;
 	}
 
 	const url = googleAppsScriptUrl;
 	try {
-		const sendData = { status: status, phoneCookie: phoneCookie, data: data };
+		const sendData = { status: status, phone: phone, data: data };
 
 		// 將資料轉換成查詢字串
 		const queryString = new URLSearchParams(sendData).toString();
@@ -15,10 +15,9 @@ async function sendRequest(status, phoneCookie, data = {}, isDebug = true) {
 		const response = await fetch(`${url}?${queryString}`);
 		const responseData = await response.json();
 
-		console.log("Data sent:", sendData);
-		console.log("Response:", responseData);
-		if (responseData.status === 'first') { return responseData; }
-		else if (responseData.status === 'ok') { return responseData; }
+		alert("Data sent:", sendData);
+		alert("Response:", responseData);
+		if (responseData.status === 'ok') { return responseData; }
 		else { alert("向google apps script寄送請求時\n回傳值非ok"); }
 	} catch (error) {
 		// 忽略 "TypeError: Failed to fetch" 錯誤

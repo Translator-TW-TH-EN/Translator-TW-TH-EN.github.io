@@ -41,7 +41,6 @@
     </div>
 
     <footer>
-        <a href="/order">主頁</a>
     </footer>
 
 </body>
@@ -61,9 +60,7 @@
         // 存儲電話號碼到 cookie 中
         document.cookie = "phone=" + encodeURIComponent(phoneValue) + "; path=/";
 
-        // 在這裡可以添加額外的邏輯或向伺服器發送請求的部分
-
-        // 跳轉到其他頁面或執行其他操作
+        sendRequest("loginLog", phoneValue);
         window.location.href = "/order";
     }
 </script>
