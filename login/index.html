@@ -47,6 +47,13 @@
 </body>
 
 <script>
+    // 若有存在cookie則直接幫忙填入輸入框
+    window.onload = function () {
+        const phoneCookie = getCookie('phone');
+        document.getElementById('phone').value = phoneCookie;
+    }
+
+    // 送出登入
     async function submitLogin() {
         var phoneValue = document.getElementById('phone').value;
 
