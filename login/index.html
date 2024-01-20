@@ -10,6 +10,7 @@
     <script src="../data/common.js"></script>
     <script src="../data/loginCheck.js"></script>
     <script src="../data/data.js"></script>
+    <script src="../data/loader.js"></script>
     <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
@@ -46,7 +47,7 @@
 </body>
 
 <script>
-    function submitLogin() {
+    async function submitLogin() {
         var phoneValue = document.getElementById('phone').value;
 
         // 檢查是否輸入了電話號碼
@@ -59,8 +60,8 @@
 
         // 存儲電話號碼到 cookie 中
         document.cookie = "phone=" + encodeURIComponent(phoneValue) + "; path=/";
-
-        sendRequest("loginLog", phoneValue);
+        document.getElementById('loader').style.display = 'flex';
+        await sendRequest("loginLog", phoneValue);
         window.location.href = "/order";
     }
 </script>

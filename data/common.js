@@ -14,9 +14,8 @@ async function sendRequest(status, phone, data = {}, isDebug = true) {
 
 		const response = await fetch(`${url}?${queryString}`);
 		const responseData = await response.json();
-
-		alert("Data sent:", sendData);
-		alert("Response:", responseData);
+		console.log("Data sent:", sendData);
+		console.log("Response:", responseData);
 		if (responseData.status === 'ok') { return responseData; }
 		else { alert("向google apps script寄送請求時\n回傳值非ok"); }
 	} catch (error) {
