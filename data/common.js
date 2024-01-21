@@ -1,6 +1,6 @@
 // google Apps Script 傳送訊息
-async function sendRequest(status, phone, data = {}, isDebug = true) {
-	if (!status || !phone) {
+async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
+	if (!status) {
 		alert("向google apps script寄送請求時\n有效參數不足");
 		return;
 	}
@@ -59,12 +59,12 @@ function my_flexToHtml(flex2htmlElementName, flexJsonList) {
 
 // 取得指定名稱的 cookie 值
 function getCookie(name) {
-    var cookies = document.cookie.split("; ");
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].split("=");
-        if (cookie[0] === name) {
-            return cookie[1];
-        }
-    }
-    return null;
+	var cookies = document.cookie.split("; ");
+	for (var i = 0; i < cookies.length; i++) {
+		var cookie = cookies[i].split("=");
+		if (cookie[0] === name) {
+			return cookie[1];
+		}
+	}
+	return null;
 }

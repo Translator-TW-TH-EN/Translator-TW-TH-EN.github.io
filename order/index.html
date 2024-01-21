@@ -5,35 +5,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Order Page</title>
+    <title>translator-tw-th-en</title>
     <!-- 載入資料 -->
     <script src="../data/common.js"></script>
     <script src="../data/loginCheck.js"></script>
     <script src="../data/data.js"></script>
+    <script src="../data/loader.js" loading-on="true"></script>
     <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
 <body>
 
     <header>
+        <!-- 這裡會自動填入登入之帳號 -->
     </header>
 
-    <div class="container">
-        <div class="container-item container-choose"
-            onclick="showDetails('Burger', 'Delicious Burger', '$10', 'https\:\/\/albert20699.github.io\/image\/F.jpg')">
-            <img src="https://albert20699.github.io/image/F.jpg" alt="Burger">
-            <h3>Burger</h3>
-            <p>Delicious Burger</p>
-            <p>$10</p>
-        </div>
+
+    <div class="container" id="container">
+        <!-- 這裡會自動填入放在雲端 orderData -->
     </div>
 
     <div class="container-details" id="foodDetails">
         <div class="details-content">
             <span class="close-btn" onclick="hideDetails()">&times;</span>
-            <h2 id="foodName"></h2>
-            <p id="foodDescription"></p>
-            <p id="foodPrice"></p>
+            <img src="" alt="" id="ladyImg">
+            <div>
+                <h2 id="ladyName"></h2>
+                <p id="ladyDescription"></p>
+            </div>
         </div>
     </div>
 
@@ -42,10 +41,50 @@
     </footer>
 
     <script>
-        function showDetails(name, description, price, image) {
-            document.getElementById('foodName').innerText = name;
-            document.getElementById('foodDescription').innerText = description;
-            document.getElementById('foodPrice').innerText = price;
+        document.addEventListener('DOMContentLoaded', async function () {
+            // 若無登入過則不執行
+            if (!getCookie("phone")) return;
+            // 創建全部的 orderData 資料
+            var orderDatas = (await sendRequest("getOrderData")).data;
+            var containerTempHTML = ""
+            orderDatas.forEach(function (orderData) {
+                var name = orderData[0];
+                var imageUrl = orderData[1];
+                var description = orderData[2];
+
+                var containerItem = document.createElement('div');
+                containerItem.style.display = 'flex';
+                containerItem.classList.add('container-item', 'container-choose');
+                containerItem.addEventListener('click', function (event) {
+                    showDetails(name, description, imageUrl);
+                });
+
+                var img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = name;
+
+                var textContainer = document.createElement('div');
+
+                var h3 = document.createElement('h3');
+                h3.textContent = name;
+
+                var p = document.createElement('p');
+                p.textContent = description;
+
+                textContainer.appendChild(h3);
+                textContainer.appendChild(p);
+                containerItem.appendChild(img);
+                containerItem.appendChild(textContainer);
+                document.getElementById('container').appendChild(containerItem);
+            });
+            document.getElementById('loader').style.display = 'none';
+        });
+
+        function showDetails(name, description, imageUrl) {
+            document.getElementById('ladyImg').src = imageUrl;
+            document.getElementById('ladyImg').alt = name;
+            document.getElementById('ladyName').innerText = name;
+            document.getElementById('ladyDescription').innerText = description;
             document.querySelector('.container-details').style.display = 'flex';
         }
 

@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
+    <title>translator-tw-th-en</title>
     <!-- 載入資料 -->
     <script src="../data/common.js"></script>
     <script src="../data/loginCheck.js"></script>
     <script src="../data/data.js"></script>
-    <script src="../data/loader.js"></script>
+    <script src="../data/loader.js" loading-on="false"></script>
     <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
@@ -32,7 +32,7 @@
         <div class="container-item" style="width: 350px;">
             <div class="form-field">
                 <label for="phone">電話：</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="text" id="phone" name="phone" required autocomplete="tel">
             </div>
 
             <div class="container-choose form-field">
@@ -47,12 +47,6 @@
 </body>
 
 <script>
-    // 若有存在cookie則直接幫忙填入輸入框
-    window.onload = function () {
-        const phoneCookie = getCookie('phone');
-        document.getElementById('phone').value = phoneCookie;
-    }
-
     // 送出登入
     async function submitLogin() {
         var phoneValue = document.getElementById('phone').value;

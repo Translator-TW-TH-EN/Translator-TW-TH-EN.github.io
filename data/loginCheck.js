@@ -1,5 +1,5 @@
 // 網頁載入完檢查是否cookie有登入電話
-window.onload = function () {
+document.addEventListener('DOMContentLoaded', function () {
 	// 檢查當前頁面是否是 login 頁面
 	if (window.location.href.indexOf("login") !== -1) {
 		// 如果是 login 頁面，直接 return 中斷執行
@@ -15,4 +15,4 @@ window.onload = function () {
 	} else {
 		document.querySelector('header').textContent = "登入帳號 Phone：" + phoneCookie;
 	}
-}
+});
