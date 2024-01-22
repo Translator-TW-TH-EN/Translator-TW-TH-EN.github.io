@@ -25,9 +25,14 @@
         <!-- 這裡會自動填入放在雲端 orderData -->
     </div>
 
-    <div class="container-details" id="foodDetails">
+    <!-- 全螢幕的圖片容器 -->
+    <div id="image-details" onclick="hideImageDetails(event)">
+        <img id="image-details-src" src="" alt="">
+    </div>
+
+    <!-- 這裡放著每個訂單的細節 -->
+    <div class="container-details" id="container-details" onclick="hideContainerDetails(event)">
         <div class="details-content">
-            <span class="close-btn" onclick="hideDetails()">&times;</span>
             <img src="" alt="" id="ladyImg">
             <div>
                 <h2 id="ladyName"></h2>
@@ -56,12 +61,15 @@
                 containerItem.style.display = 'flex';
                 containerItem.classList.add('container-item', 'container-choose');
                 containerItem.addEventListener('click', function (event) {
-                    showDetails(name, description, imageUrl);
+                    showContainerDetails(name, description, imageUrl);
                 });
 
                 var img = document.createElement('img');
                 img.src = imageUrl;
                 img.alt = name;
+                img.addEventListener('click', function (event) {
+                    showImageDetails(name, imageUrl);
+                });
 
                 var textContainer = document.createElement('div');
                 var h3 = document.createElement('h3');
@@ -77,16 +85,31 @@
             document.getElementById('loader').style.display = 'none';
         });
 
-        function showDetails(name, description, imageUrl) {
+        function showImageDetails(name, imageUrl) {
+            document.getElementById("image-details").style.display = "flex";
+            document.getElementById("image-details-src").src = imageUrl;
+            document.getElementById('image-details-src').alt = name;
+            event.stopPropagation(); // 阻止事件傳播到包覆元素(container-item)
+        }
+
+        function hideImageDetails(event) {
+            if (event.target.id === "image-details") {
+                document.getElementById("image-details").style.display = "none";
+            }
+        }
+
+        function showContainerDetails(name, description, imageUrl) {
             document.getElementById('ladyImg').src = imageUrl;
             document.getElementById('ladyImg').alt = name;
             document.getElementById('ladyName').innerText = name;
             document.getElementById('ladyDescription').innerText = description;
-            document.querySelector('.container-details').style.display = 'flex';
+            document.getElementById('container-details').style.display = 'flex';
         }
 
-        function hideDetails() {
-            document.querySelector('.container-details').style.display = 'none';
+        function hideContainerDetails(event) {
+            if (event.target.id === "container-details") {
+                document.getElementById("container-details").style.display = "none";
+            }
         }
 
         function logOut() {
