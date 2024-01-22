@@ -77,6 +77,12 @@ footer a {
 	width: 40%;
 	border-radius: 8px;
 	margin: 10px;
+	object-fit: cover;
+    overflow: hidden;
+}
+
+.container-fixed-height{
+	height: 160px;
 }
 
 .form-field {
@@ -116,6 +122,7 @@ footer a {
 	background: rgba(0, 0, 0, 0.8);
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
 }
 
 .image-details-container {
@@ -131,7 +138,6 @@ footer a {
 	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
-	border: 2px solid #ddd;
 }
 
 #image-details img {
@@ -156,6 +162,9 @@ footer a {
 	border: none;
 	outline: none;
 	text-align: center;
+	font-size: 20px;
+    height: 8vh;
+    width: 10vw;
 }
 
 .left-button {
@@ -178,6 +187,7 @@ footer a {
 	background-color: rgba(0, 0, 0, 0.8);
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
 }
 
 .details-content {
