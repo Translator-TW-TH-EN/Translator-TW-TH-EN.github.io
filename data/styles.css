@@ -122,7 +122,7 @@ footer a {
 	background: rgba(0, 0, 0, 0.8);
 	justify-content: center;
 	align-items: center;
-	z-index: 1;
+	z-index: 2;
 }
 
 .image-details-container {
@@ -158,7 +158,7 @@ footer a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 2;
+	z-index: 3;
 	border: none;
 	outline: none;
 	text-align: center;
@@ -200,7 +200,14 @@ footer a {
 }
 
 .details-content img {
-	width: 40%;
+	width: 100%;
 	border-radius: 8px;
-	margin: 10px;
+}
+
+.close-btn {
+	cursor: pointer;
+	color: #000000;
+	font-size: 30px;
+	float: right;
+	margin-top: -15px;
 }
