@@ -27,7 +27,11 @@
 
     <!-- 全螢幕的圖片容器 -->
     <div id="image-details" onclick="hideImageDetails(event)">
-        <img id="image-details-src" src="" alt="">
+        <button class="nav-button left-button" onclick="slide('left')">&lt;&lt;</button>
+        <div class="image-details-container" id="image-details-container">
+            <!-- 這裡會自動填入放在雲端訂單的圖片 -->
+        </div>
+        <button class="nav-button right-button" onclick="slide('right')">&gt;&gt;</button>
     </div>
 
     <!-- 這裡放著每個訂單的細節 -->
@@ -54,21 +58,21 @@
             var containerTempHTML = ""
             orderDatas.forEach(function (orderData) {
                 var name = orderData[0];
-                var imageUrl = orderData[1];
+                var imageUrls = JSON.parse(orderData[1]);
                 var description = orderData[2];
 
                 var containerItem = document.createElement('div');
                 containerItem.style.display = 'flex';
                 containerItem.classList.add('container-item', 'container-choose');
                 containerItem.addEventListener('click', function (event) {
-                    showContainerDetails(name, description, imageUrl);
+                    showContainerDetails(name, description, imageUrls[0]);
                 });
 
                 var img = document.createElement('img');
-                img.src = imageUrl;
+                img.src = imageUrls[0];
                 img.alt = name;
                 img.addEventListener('click', function (event) {
-                    showImageDetails(name, imageUrl);
+                    showImageDetails(name, imageUrls);
                 });
 
                 var textContainer = document.createElement('div');
@@ -85,15 +89,38 @@
             document.getElementById('loader').style.display = 'none';
         });
 
-        function showImageDetails(name, imageUrl) {
-            document.getElementById("image-details").style.display = "flex";
-            document.getElementById("image-details-src").src = imageUrl;
-            document.getElementById('image-details-src').alt = name;
-            event.stopPropagation(); // 阻止事件傳播到包覆元素(container-item)
+        let currentIndex = 0;
+        function slide(direction) {
+            const imgSwiperItemsNumber = document.querySelectorAll('.image-details-item').length;
+            if (direction === 'right') {
+                currentIndex = (currentIndex + 1) % imgSwiperItemsNumber;
+            } else if (direction === 'left') {
+                currentIndex = (currentIndex - 1 + imgSwiperItemsNumber) % imgSwiperItemsNumber;
+            }
+
+            const newPosition = -currentIndex * 100;
+            document.querySelector('.image-details-container').style.transform = `translateX(${newPosition}vw)`;
+        }
+
+        function showImageDetails(name, imageUrls) {
+            document.getElementById('image-details-container').innerHTML = '';
+            imageUrls.forEach(function (imageUrl) {
+                document.getElementById("image-details").style.display = "flex";
+
+                var imageDetailsDiv = document.createElement('div');
+                imageDetailsDiv.className = 'image-details-item';
+                var imgElement = document.createElement('img');
+                imgElement.id = 'image-details-src';
+                imgElement.src = imageUrl;
+                imgElement.alt = name;
+                imageDetailsDiv.appendChild(imgElement);
+                document.getElementById('image-details-container').appendChild(imageDetailsDiv);
+                event.stopPropagation(); // 阻止事件傳播到包覆元素(container-item)
+            });
         }
 
         function hideImageDetails(event) {
-            if (event.target.id === "image-details") {
+            if (!event.target.classList.contains("nav-button")) {
                 document.getElementById("image-details").style.display = "none";
             }
         }
