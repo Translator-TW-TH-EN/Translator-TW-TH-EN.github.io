@@ -61,6 +61,10 @@
                 var name = orderData[0];
                 var imageUrls = JSON.parse(orderData[1]);
                 var description = orderData[2];
+                var age = orderData[3];
+                var height = orderData[4];
+                var bodyValues = orderData[5];
+                var reviewCount = orderData[6];
 
                 var containerItem = document.createElement('div');
                 containerItem.style.display = 'flex';
@@ -76,13 +80,49 @@
                     showImageDetails(name, imageUrls);
                 });
 
+                var nameContainer = document.createElement('div');
+                nameContainer.style.padding = "15px 0px 5px 10px";
+                nameContainer.style.fontSize = "1.2rem";
+                nameContainer.textContent = name;
+                var ladyBodyTagsContainer1 = document.createElement('div');
+                ladyBodyTagsContainer1.classList.add('lady-body-tags');
+                ladyBodyTagsContainer1.style.backgroundColor = "#fc7a6c";
+                ladyBodyTagsContainer1.innerText = "age " + age;
+                var ladyBodyTagsContainer2 = document.createElement('div');
+                ladyBodyTagsContainer2.classList.add('lady-body-tags');
+                ladyBodyTagsContainer2.style.backgroundColor = "#ffbd71";
+                ladyBodyTagsContainer2.innerText = height + "cm";
+                var ladyBodyTagsContainer3 = document.createElement('div');
+                ladyBodyTagsContainer3.classList.add('lady-body-tags');
+                ladyBodyTagsContainer3.style.backgroundColor = "#ff9bd2";
+                ladyBodyTagsContainer3.innerText = "三圍 " + bodyValues;
+                var feedbackContainer = document.createElement('div');
+                feedbackContainer.classList.add('feedback-container');
+                var feedbackImg1 = document.createElement('img');
+                feedbackImg1.src = "https://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_14.png";
+                var feedbackNum1 = document.createElement('div');
+                feedbackNum1.style.padding = "1px 10px 0 3px";
+                feedbackNum1.style.color = " rgb(230, 176, 0)";
+                feedbackNum1.innerText = 0;
+                var feedbackImg2 = document.createElement('img');
+                feedbackImg2.src = "https://cdn-icons-png.flaticon.com/512/1370/1370907.png";
+                var feedbackNum2 = document.createElement('div');
+                feedbackNum2.style.padding = "1px 5px 0 5px";
+                feedbackNum2.innerText = 0;
+                feedbackContainer.appendChild(feedbackImg1);
+                feedbackContainer.appendChild(feedbackNum1);
+                feedbackContainer.appendChild(feedbackImg2);
+                feedbackContainer.appendChild(feedbackNum2);
+                var feedbackNum3 = document.createElement('div');
+                feedbackNum3.innerText = "評價" + 0 + "次";
                 var textContainer = document.createElement('div');
-                var h3 = document.createElement('h3');
-                h3.textContent = name;
-                var p = document.createElement('p');
-                p.textContent = description;
-                textContainer.appendChild(h3);
-                textContainer.appendChild(p);
+                textContainer.appendChild(nameContainer);
+                textContainer.appendChild(ladyBodyTagsContainer1);
+                textContainer.appendChild(ladyBodyTagsContainer2);
+                textContainer.appendChild(document.createElement('br'));
+                textContainer.appendChild(ladyBodyTagsContainer3);
+                textContainer.appendChild(feedbackContainer);
+                textContainer.appendChild(feedbackNum3);
                 containerItem.appendChild(img);
                 containerItem.appendChild(textContainer);
                 document.getElementById('container').appendChild(containerItem);
@@ -123,6 +163,9 @@
         function hideImageDetails(event) {
             if (!event.target.classList.contains("nav-button")) {
                 document.getElementById("image-details").style.display = "none";
+                // 歸位相片位置
+                document.querySelector('.image-details-container').style.transform = `translateX(0vw)`;
+                currentIndex = 0;
             }
         }
 
