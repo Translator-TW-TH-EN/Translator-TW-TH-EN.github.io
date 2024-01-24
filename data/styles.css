@@ -55,6 +55,11 @@ footer a {
 	justify-content: space-around;
 }
 
+.container-login {
+	padding: 10px;
+	width: 350px;
+}
+
 .container-item {
 	width: 300px;
 	background-color: #fff;
@@ -80,8 +85,6 @@ footer a {
 	overflow: hidden;
 	font-size: 0.8rem;
 }
-
-/* .container-item div */
 
 .container-fixed-height {
 	height: 160px;
@@ -125,6 +128,7 @@ footer a {
 	justify-content: center;
 	align-items: center;
 	z-index: 2;
+	background-size: cover;
 }
 
 .image-details-container {
