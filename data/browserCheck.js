@@ -1,21 +1,22 @@
 // 網頁載入完檢查為預設瀏覽器
 document.addEventListener('DOMContentLoaded', function () {
-	var u = navigator.userAgent
-	let isLineApp = u.indexOf("Line") > -1 ? true : false;
-	let isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-	let isAndroid = /Android/.test(userAgent);
-
 	try {
+		var u = navigator.userAgent
+		let isLineApp = u.indexOf("Line") > -1 ? true : false;
+		let isIOS = /iPad|iPhone|iPod/.test(u) && !window.MSStream;
+		let isAndroid = /Android/.test(u);
+
+
 		if (isLineApp) {
 			window.location.href += "?openExternalBrowser=1"
 			alert("isLineApp")
 		}
 		else if (isIOS) {
-			window.location.href = "googlechrome://www.example.com" + window.location.href
+			window.location.href = 'googlechromes://www.tovia.com/';
 			alert("isIOS")
 		}
 		else if (isAndroid) {
-			window.location.href = "googlechrome://navigate?url=" + window.location.href
+			window.location.href = 'googlechromes://navigate?url=www.tovia.com/';
 			alert("isAndroid")
 		}
 		else {
