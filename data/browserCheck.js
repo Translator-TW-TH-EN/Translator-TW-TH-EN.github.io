@@ -9,18 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		if (isLineApp) {
 			window.location.href += "?openExternalBrowser=1"
-			alert("isLineApp")
 		}
 		else if (isIOS) {
 			window.location.href = 'googlechromes://www.tovia.com/';
-			alert("isIOS")
 		}
 		else if (isAndroid) {
 			window.location.href = 'googlechromes://navigate?url=www.tovia.com/';
-			alert("isAndroid")
 		}
 		else {
-			alert("not anyone")
 			return;
 		}
 	} catch (e) {
