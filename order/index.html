@@ -37,13 +37,25 @@
     </div>
 
     <!-- 這裡放著每個訂單的細節 -->
-    <div class="container-details" id="container-details">
+    <div class="container-details" id="container-details" onclick="hideContainerDetails(event)">
+        <!-- <div class="image-details-black-background"></div> -->
         <div class="details-content">
             <span class="close-btn" onclick="hideContainerDetails(event)">&times;</span>
+            <br>
             <img src="" alt="" id="ladyImg">
             <div>
                 <h2 id="ladyName"></h2>
+                <div class="lady-body-tags" style="background-color: rgb(252, 122, 108);" id="ladyAge"></div>
+                <div class="lady-body-tags" style="background-color: rgb(255, 189, 113);" id="ladyHeight"></div>
+                <div class="lady-body-tags" style="background-color: rgb(255, 155, 210);" id="ladyBodyValues"></div>
                 <p id="ladyDescription"></p>
+                <div class="feedback-container"><img
+                        src="https://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_14.png">
+                    <div style="padding: 1px 10px 0px 3px; color: rgb(230, 176, 0);">0</div><img
+                        src="https://cdn-icons-png.flaticon.com/512/1370/1370907.png">
+                    <div style="padding: 1px 5px 0px;">0</div>
+                </div>
+                <div>評價0次</div>
             </div>
         </div>
     </div>
@@ -72,61 +84,25 @@
                 containerItem.style.display = 'flex';
                 containerItem.classList.add('container-item', 'container-choose', "container-fixed-height");
                 containerItem.addEventListener('click', function (event) {
-                    showContainerDetails(name, description, imageUrls);
+                    showContainerDetails(name, description, imageUrls, age, height, bodyValues);
                 });
 
-                var img = document.createElement('img');
-                img.src = imageUrls[0];
-                img.alt = name;
-                img.addEventListener('click', function (event) {
-                    showImageDetails(name, imageUrls);
-                });
-
-                var nameContainer = document.createElement('div');
-                nameContainer.style.padding = "15px 0px 5px 10px";
-                nameContainer.style.fontSize = "1.2rem";
-                nameContainer.textContent = name;
-                var ladyBodyTagsContainer1 = document.createElement('div');
-                ladyBodyTagsContainer1.classList.add('lady-body-tags');
-                ladyBodyTagsContainer1.style.backgroundColor = "#fc7a6c";
-                ladyBodyTagsContainer1.innerText = "age " + age;
-                var ladyBodyTagsContainer2 = document.createElement('div');
-                ladyBodyTagsContainer2.classList.add('lady-body-tags');
-                ladyBodyTagsContainer2.style.backgroundColor = "#ffbd71";
-                ladyBodyTagsContainer2.innerText = height + "cm";
-                var ladyBodyTagsContainer3 = document.createElement('div');
-                ladyBodyTagsContainer3.classList.add('lady-body-tags');
-                ladyBodyTagsContainer3.style.backgroundColor = "#ff9bd2";
-                ladyBodyTagsContainer3.innerText = "三圍 " + bodyValues;
-                var feedbackContainer = document.createElement('div');
-                feedbackContainer.classList.add('feedback-container');
-                var feedbackImg1 = document.createElement('img');
-                feedbackImg1.src = "https://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_14.png";
-                var feedbackNum1 = document.createElement('div');
-                feedbackNum1.style.padding = "1px 10px 0 3px";
-                feedbackNum1.style.color = " rgb(230, 176, 0)";
-                feedbackNum1.innerText = 0;
-                var feedbackImg2 = document.createElement('img');
-                feedbackImg2.src = "https://cdn-icons-png.flaticon.com/512/1370/1370907.png";
-                var feedbackNum2 = document.createElement('div');
-                feedbackNum2.style.padding = "1px 5px 0 5px";
-                feedbackNum2.innerText = 0;
-                feedbackContainer.appendChild(feedbackImg1);
-                feedbackContainer.appendChild(feedbackNum1);
-                feedbackContainer.appendChild(feedbackImg2);
-                feedbackContainer.appendChild(feedbackNum2);
-                var feedbackNum3 = document.createElement('div');
-                feedbackNum3.innerText = "評價" + 0 + "次";
-                var textContainer = document.createElement('div');
-                textContainer.appendChild(nameContainer);
-                textContainer.appendChild(ladyBodyTagsContainer1);
-                textContainer.appendChild(ladyBodyTagsContainer2);
-                textContainer.appendChild(document.createElement('br'));
-                textContainer.appendChild(ladyBodyTagsContainer3);
-                textContainer.appendChild(feedbackContainer);
-                textContainer.appendChild(feedbackNum3);
-                containerItem.appendChild(img);
-                containerItem.appendChild(textContainer);
+                containerItem.innerHTML = `
+                <img src="${imageUrls[0]}" alt="${name}" onclick="showImageDetails('${name}', '${imageUrls}');">
+                <div>
+                    <div style="padding: 15px 0px 5px 10px; font-size: 1.2rem;">${name}</div>
+                    <div class="lady-body-tags" style="background-color: rgb(252, 122, 108);">age ${age}</div>
+                    <div class="lady-body-tags" style="background-color: rgb(255, 189, 113);">${height}cm</div>
+                    <br>
+                    <div class="lady-body-tags" style="background-color: rgb(255, 155, 210);">三圍 ${bodyValues}</div>
+                    <div class="feedback-container">
+                        <img src="https://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_14.png">
+                        <div style="padding: 1px 10px 0px 3px; color: rgb(230, 176, 0);">0</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1370/1370907.png">
+                        <div style="padding: 1px 5px 0px;">0</div>
+                    </div>
+                    <div>評價${0}次</div>
+                </div> `
                 document.getElementById('container').appendChild(containerItem);
             });
             document.getElementById('loader').style.display = 'none';
@@ -146,6 +122,7 @@
         }
 
         function showImageDetails(name, imageUrls) {
+            var imageUrls = typeof imageUrls === 'string' ? imageUrls.split(',') : imageUrls;
             document.getElementById('image-details-container').innerHTML = '';
             imageUrls.forEach(function (imageUrl) {
                 document.getElementById("image-details").style.display = "flex";
@@ -158,8 +135,8 @@
                 imgElement.alt = name;
                 imageDetailsDiv.appendChild(imgElement);
                 document.getElementById('image-details-container').appendChild(imageDetailsDiv);
-                event.stopPropagation(); // 阻止事件傳播到包覆元素(container-item)
             });
+            event.stopPropagation(); // 阻止事件傳播到包覆元素(container-item)
         }
 
         function hideImageDetails(event) {
@@ -171,9 +148,12 @@
             }
         }
 
-        function showContainerDetails(name, description, imageUrls) {
+        function showContainerDetails(name, description, imageUrls, age, height, bodyValues) {
             document.getElementById('ladyImg').src = imageUrls[0];
             document.getElementById('ladyImg').alt = name;
+            document.getElementById('ladyAge').innerText = "age " + age;
+            document.getElementById('ladyHeight').innerText = height + "cm";
+            document.getElementById('ladyBodyValues').innerText = "三圍 " + bodyValues;
             document.getElementById('ladyImg').addEventListener('click', function (event) {
                 showImageDetails(name, imageUrls);
             });
@@ -183,7 +163,9 @@
         }
 
         function hideContainerDetails(event) {
-            document.getElementById("container-details").style.display = "none";
+            if (event.target.id == "container-details" || event.target.classList.contains("close-btn")) {
+                document.getElementById("container-details").style.display = "none";
+            }
         }
 
         function logOut() {
