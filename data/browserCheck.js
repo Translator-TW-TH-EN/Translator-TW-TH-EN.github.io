@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 	try {
 		var u = navigator.userAgent
-		let isLineApp = u.indexOf("Line") > -1 ? true : false;
+		let isLineApp = /Line/.test(u);
 		let isIOS = /iPad|iPhone|iPod/.test(u) && !window.MSStream;
 		let isAndroid = /Android/.test(u);
 
