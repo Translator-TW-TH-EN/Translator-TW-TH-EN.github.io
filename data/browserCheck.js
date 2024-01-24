@@ -8,14 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	try {
 		if (isLineApp) {
 			window.location.href += "?openExternalBrowser=1"
+			alert("isLineApp")
 		}
 		else if (isIOS) {
 			window.location.href = "googlechrome://www.example.com" + window.location.href
+			alert("isIOS")
 		}
 		else if (isAndroid) {
 			window.location.href = "googlechrome://navigate?url=" + window.location.href
+			alert("isAndroid")
 		}
 		else {
+			alert("not anyone")
 			return;
 		}
 	} catch (e) {
