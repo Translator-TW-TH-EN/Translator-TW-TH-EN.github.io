@@ -6,15 +6,15 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="你的HTML文件       確定選擇               function sendMenu() {             &#x2F;&#x2F; 創建 URL 查詢參數字符串             const queryParams &#x3D; new URLSearchParams({                 parameter1: &#39;value1&#39;,">
+  <meta name="description" content=".time-choose-btn.selected {             background-color: #4CAF50;             color: white;         }          .time-choose-btn .selected {             border: 2px solid red">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://translator-tw-th-en.github.io/test/test.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="你的HTML文件       確定選擇               function sendMenu() {             &#x2F;&#x2F; 創建 URL 查詢參數字符串             const queryParams &#x3D; new URLSearchParams({                 parameter1: &#39;value1&#39;,">
+<meta property="og:description" content=".time-choose-btn.selected {             background-color: #4CAF50;             color: white;         }          .time-choose-btn .selected {             border: 2px solid red">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-01-28T09:25:02.835Z">
-<meta property="article:modified_time" content="2024-01-28T09:25:02.835Z">
+<meta property="article:published_time" content="2024-01-28T17:46:49.877Z">
+<meta property="article:modified_time" content="2024-01-28T17:46:49.877Z">
 <meta property="article:author" content="Albert Wang">
 <meta name="twitter:card" content="summary">
   
@@ -82,7 +82,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/test/test.html" class="article-date">
-  <time class="dt-published" datetime="2024-01-28T09:25:02.835Z" itemprop="datePublished">2024-01-28</time>
+  <time class="dt-published" datetime="2024-01-28T17:46:49.877Z" itemprop="datePublished">2024-01-29</time>
 </a>
     
   </div>
@@ -96,30 +96,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你的HTML文件</title>
+    <style>
+        .time-choose-btn.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .time-choose-btn .selected {
+            border: 2px solid red;
+        }
+    </style>
+    <title>Class Selector Example</title>
 </head>
 <body>
-    <a class="send-menu-btn" onclick="sendMenu()">確定選擇</a>
 
-    <script>
-        function sendMenu() {
-            // 創建 URL 查詢參數字符串
-            const queryParams = new URLSearchParams({
-                parameter1: 'value1',
-                parameter2: 'value2'
-                // 在這裡添加更多的參數，如果有的話
-            });
+<div class="time-choose-btn selected" id="btn1">Selected with .time-choose-btn.selected</div>
+<div class="time-choose-btn">
+    <div class="selected" id="btn2">Selected with .time-choose-btn .selected</div>
+</div>
 
-            // 獲取當前頁面的 URL
-            const currentUrl = "./index.html";
-
-            // 組合 URL，並將查詢參數添加到連結中
-            const destinationUrl = `${currentUrl}?${queryParams.toString()}`;
-
-            // 跳轉到新的 URL
-            window.location.href = destinationUrl;
-        }
-    </script>
 </body>
 </html>
 

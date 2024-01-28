@@ -6,15 +6,15 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="第二個HTML                &#x2F;&#x2F; 獲取URL中的查詢參數         const urlParams &#x3D; new URLSearchParams(window.location.search);         const parameter1 &#x3D; urlParams.get(&#39;parameter1&#39;);         const para">
+  <meta name="description" content="預約時間 	 		label { 			display: block; 			margin-bottom: 8px; 		}  		input[type&#x3D;&quot;checkbox&quot;] { 			display: none; 		}  		.time-slot { 			width: 100%; 			padding: 10px; 			margin-bottom: 10px; 			b">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://translator-tw-th-en.github.io/test/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="第二個HTML                &#x2F;&#x2F; 獲取URL中的查詢參數         const urlParams &#x3D; new URLSearchParams(window.location.search);         const parameter1 &#x3D; urlParams.get(&#39;parameter1&#39;);         const para">
+<meta property="og:description" content="預約時間 	 		label { 			display: block; 			margin-bottom: 8px; 		}  		input[type&#x3D;&quot;checkbox&quot;] { 			display: none; 		}  		.time-slot { 			width: 100%; 			padding: 10px; 			margin-bottom: 10px; 			b">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-01-28T09:21:24.234Z">
-<meta property="article:modified_time" content="2024-01-28T09:21:24.234Z">
+<meta property="article:published_time" content="2024-01-28T16:09:09.318Z">
+<meta property="article:modified_time" content="2024-01-28T16:09:09.318Z">
 <meta property="article:author" content="Albert Wang">
 <meta name="twitter:card" content="summary">
   
@@ -82,7 +82,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/test/index.html" class="article-date">
-  <time class="dt-published" datetime="2024-01-28T09:21:24.234Z" itemprop="datePublished">2024-01-28</time>
+  <time class="dt-published" datetime="2024-01-28T16:09:09.318Z" itemprop="datePublished">2024-01-29</time>
 </a>
     
   </div>
@@ -92,26 +92,367 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第二個HTML</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>預約時間</title>
+	<style>
+		label {
+			display: block;
+			margin-bottom: 8px;
+		}
+
+		input[type="checkbox"] {
+			display: none;
+		}
+
+		.time-slot {
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 10px;
+			box-sizing: border-box;
+			border: 1px solid #ccc;
+			cursor: pointer;
+		}
+
+		.time-slot:hover {
+			background-color: #f0f0f0;
+		}
+
+		.time-slot input[type="checkbox"]:checked {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		.time-slots {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+		}
+
+		@keyframes gradientAnimation {
+			0% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+
+			100% {
+				background-position: 0% 50%;
+			}
+		}
+
+		body {
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f4f4f4;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			overflow: hidden;
+			background: linear-gradient(45deg, #d0ecff, #f7e2ff, #ffecec, #c9e9ff);
+			background-size: 500% 500%;
+			animation: gradientAnimation 15s infinite;
+			overflow-y: auto;
+		}
+
+		header {
+			background-color: #333;
+			color: #fff;
+			padding: 1rem;
+			text-align: center;
+		}
+
+		footer {
+			background-color: #333;
+			color: #fff;
+			padding: 1rem 0;
+			text-align: center;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+
+		footer a {
+			color: #fff;
+			text-decoration: none;
+		}
+
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+		}
+
+		.container-padding {
+			padding: 10px;
+			width: 350px;
+		}
+
+		.container-item {
+			width: 300px;
+			background-color: #fff;
+			border-radius: 8px;
+			margin: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		.container-choose {
+			cursor: pointer;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		.container-choose:hover {
+			transform: scale(1.05);
+		}
+
+		.container-item>img {
+			width: 35%;
+			border-radius: 8px;
+			margin: 10px 20px 10px 10px;
+			object-fit: cover;
+			overflow: hidden;
+			font-size: 0.8rem;
+		}
+
+		.container-fixed-height {
+			height: 160px;
+		}
+
+		.form-field {
+			margin-bottom: 15px;
+		}
+
+		.form-field label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		.form-field input {
+			width: calc(100% - 20px);
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.form-field button {
+			width: 100%;
+			padding: 10px;
+			background-color: #333;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		#image-details {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			justify-content: center;
+			align-items: center;
+			z-index: 2;
+		}
+
+
+		.image-details-container {
+			position: relative;
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			transition: transform 0.5s ease;
+		}
+
+		.image-details-item {
+			flex: 0 0 100vw;
+			height: 100%;
+			overflow: hidden;
+			box-sizing: border-box;
+		}
+
+		#image-details img {
+			position: relative;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			max-height: 100%;
+			max-width: 100%;
+		}
+
+		.image-details-black-background {
+			/* 完全覆蓋黑色 */
+			position: fixed;
+			width: 200%;
+			height: 200%;
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		.nav-button {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: rgba(255, 255, 255, 0.5);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 3;
+			border: none;
+			outline: none;
+			text-align: center;
+			font-size: max(4vw, 20px);
+			height: 8vh;
+			width: 12vw;
+			color: #292929;
+		}
+
+		.left-button {
+			left: 0;
+			border-radius: 0 5px 5px 0;
+		}
+
+		.right-button {
+			right: 0;
+			border-radius: 5px 0 0 5px;
+		}
+
+		.container-details {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.8);
+			justify-content: center;
+			align-items: center;
+			z-index: 1;
+		}
+
+		.details-content {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			text-align: center;
+			height: 85%;
+			overflow-y: auto;
+			font-size: larger;
+		}
+
+		.details-content img {
+			width: 100%;
+			border-radius: 8px;
+			max-height: 80%;
+			object-fit: cover;
+			overflow: hidden;
+			max-width: 600px;
+
+		}
+
+		.close-btn {
+			cursor: pointer;
+			color: #000000;
+			font-size: 30px;
+			float: right;
+			margin-top: -15px;
+		}
+
+		.lady-body-tags {
+			padding: 0.2rem 0.6rem;
+			line-height: 1.2rem;
+			border-radius: 1.2rem;
+			color: #ffffff;
+			display: inline-block;
+			margin: 2px;
+		}
+
+		.container-item .lady-body-tags {
+			padding: 0 0.6rem;
+			font-size: 0.8rem;
+		}
+
+		.feedback-container+div {
+			margin-left: 5px;
+			font-size: 0.8rem;
+		}
+
+		.container-item .feedback-container {
+			display: flex;
+			align-items: center;
+			margin: 5px
+		}
+
+		.details-content .feedback-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.container-item .feedback-container img {
+			width: 15px;
+			height: 15px;
+		}
+
+		.details-content .feedback-container img {
+			width: 28px;
+			height: 28px;
+		}
+
+		.send-menu-btn {
+			display: block;
+			padding: 0.2rem;
+			border-radius: 0.5rem;
+			color: #ffffff;
+			background-color: rgb(252, 122, 108);
+			border: 2px solid #3d3d3d;
+			box-shadow: 3px 3px 2px rgb(255 0 0 / 30%);
+		}
+
+		.time-choose-btn {
+			border-radius: 1.2rem;
+			background-color: #e7e7e7;
+			font-size: 0.8rem;
+		}
+	</style>
 </head>
+
 <body>
-    <script>
-        // 獲取URL中的查詢參數
-        const urlParams = new URLSearchParams(window.location.search);
-        const parameter1 = urlParams.get('parameter1');
-        const parameter2 = urlParams.get('parameter2');
+	<div class="container">
+		<div class="container-item container-padding">
+			<div style="justify-content: center; display: flex; height: 50px; font-weight: bold; align-items: center;">
+				<span>選擇時間</span>
+			</div>
+		</div>
+	</div>
 
-        // 在控制台輸出參數值（你可以根據需要進行其他處理）
-        console.log('Parameter 1:', parameter1);
-        console.log('Parameter 2:', parameter2);
-    </script>
+	<div class="container" id="container" >
+		<div class="container-item  container-padding">
+
+			<!-- 使用JavaScript生成時間區塊 -->
+			<div class="container">
+				<label class="time-choose-btn">00:40~01:00</label>
+				<label class="time-choose-btn">01:00~01:20</label>
+				<label class="time-choose-btn">01:20~01:40</label>
+				<label class="time-choose-btn">01:40~02:00</label>
+				<label class="time-choose-btn">02:00~02:20</label>
+				<label class="time-choose-btn">02:20~02:40</label>
+			</div>
+		</div>
+	</div>
+
 </body>
-</html>
 
+</html>
       
     </div>
     <footer class="article-footer">
