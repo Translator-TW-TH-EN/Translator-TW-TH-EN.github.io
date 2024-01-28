@@ -178,7 +178,7 @@ footer a {
 	font-size: max(4vw, 20px);
 	height: 8vh;
 	width: 12vw;
-    color: #292929;
+	color: #292929;
 }
 
 .left-button {
@@ -211,6 +211,7 @@ footer a {
 	text-align: center;
 	height: 85%;
 	overflow-y: auto;
+	font-size: larger;
 }
 
 .details-content img {
@@ -232,27 +233,53 @@ footer a {
 }
 
 .lady-body-tags {
-	padding: 0 0.6rem;
+	padding: 0.2rem 0.6rem;
 	line-height: 1.2rem;
 	border-radius: 1.2rem;
 	color: #ffffff;
 	display: inline-block;
-	font-size: 0.8rem;
 	margin: 2px;
 }
 
-.feedback-container {
-	display: flex;
-	align-items: center;
-	margin: 5px
-}
-
-.feedback-container img {
-	width: 15px;
-	height: 15px;
+.container-item .lady-body-tags {
+	padding: 0 0.6rem;
+	font-size: 0.8rem;
 }
 
 .feedback-container+div {
 	margin-left: 5px;
 	font-size: 0.8rem;
+}
+
+.container-item .feedback-container {
+	display: flex;
+	align-items: center;
+	margin: 5px
+}
+
+.details-content .feedback-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+}
+
+.container-item .feedback-container img {
+	width: 15px;
+	height: 15px;
+}
+
+.details-content .feedback-container img {
+	width: 28px;
+	height: 28px;
+}
+
+.send-menu-btn {
+	display: block;
+	padding: 0.2rem;
+	border-radius: 0.5rem;
+	color: #ffffff;
+	background-color: rgb(252, 122, 108);
+	border: 2px solid #3d3d3d;
+	box-shadow: 3px 3px 2px rgb(255 0 0 / 30%);
 }

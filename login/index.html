@@ -64,7 +64,7 @@
         document.cookie = "phone=" + encodeURIComponent(phoneValue) + "; path=/";
         document.getElementById('loader').style.display = 'flex';
         await sendRequest("loginLog", phoneValue);
-        window.location.href = "/order";
+        window.location.href = "/menu";
     }
 </script>
 

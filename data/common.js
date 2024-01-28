@@ -68,3 +68,13 @@ function getCookie(name) {
 	}
 	return null;
 }
+
+// 這是一個用來解析 URL 查詢參數(urlQueryParams)的簡單函數
+function getUrlQueryParametersByName(name) {
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(window.location.href);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
