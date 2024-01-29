@@ -6,6 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>translator-tw-th-en</title>
+    <!-- 引入 SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <!-- 引入 SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
     <!-- 載入資料 -->
     <script src="../data/common.js"></script>
     <script src="../data/loginCheck.js"></script>
@@ -176,7 +180,7 @@
             var ladyName = document.getElementById('ladyName').innerText;
             const queryParams = new URLSearchParams({ ladyName });
             // 使用到 查詢參數 一定要加上 index.html
-            window.location.href =  `/order/index.html?${queryParams.toString()}`;
+            window.location.href = `/order/index.html?${queryParams.toString()}`;
         }
 
         function logOut() {

@@ -59,6 +59,14 @@ footer a {
 	padding: 10px;
 }
 
+.container-just-word {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+}
+
 .container-item {
 	width: 300px;
 	background-color: #fff;
@@ -89,7 +97,7 @@ footer a {
 	height: 160px;
 }
 
-.form-field {
+.form-field.form-fix-margin-bottom {
 	margin-bottom: 15px;
 }
 

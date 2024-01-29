@@ -6,6 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>translator-tw-th-en</title>
+    <!-- 引入 SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <!-- 引入 SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
     <!-- 載入資料 -->
     <script src="../data/common.js"></script>
     <script src="../data/loginCheck.js"></script>
@@ -23,17 +27,26 @@
 
     <div class="container">
         <div class="container-item container-padding">
-            <div style="justify-content: center; display: flex; height: 50px; font-weight: bold; align-items: center;">
-                <span>選擇時間</span>
+            <div class="container-just-word" style="height: 50px;">
+                <span id="ladyNameDisplay"></span>
+                <span>選擇時間(可複選)</span>
             </div>
         </div>
     </div>
 
-    <div class="container" id="container">
+    <div class="container">
         <div class="container-item  container-padding">
 
             <div class="container" id="timeSlots">
                 <!-- 使用JavaScript生成時間區塊 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-bottom: 60px;">
+        <div class="container-item container-padding">
+            <div class="container-choose form-field">
+                <button onclick="submitOrder()">送出</button>
             </div>
         </div>
     </div>
@@ -47,25 +60,52 @@
             // 若無登入過則不執行
             if (!getCookie("phone")) return;
             var ladyName = getUrlQueryParametersByName('ladyName');
-            // if (!ladyName) window.location.href = "/menu";
-
+            if (!ladyName) window.location.href = "/menu";
+            document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
+            // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
+            var workingHours = JSON.parse((await sendRequest("getWorkingHours", getCookie("phone"), data = ladyName)).data);
+            alert(workingHours)
+            alert(typeof workingHours)
             // 使用JavaScript生成時間區塊
-            for (var i = 0; i < 24 * 3; i++) {
-                var startHour = Math.floor(i / 3);
-                var startMinute = (i % 3) * 20;
-                var endHour = Math.floor((i + 1) / 3);
-                var endMinute = ((i + 1) % 3) * 20;
-
-                var startTime = ("0" + startHour).slice(-2) + ":" + ("0" + startMinute).slice(-2);
-                var endTime = ("0" + endHour).slice(-2) + ":" + ("0" + endMinute).slice(-2);
-
-                var timeChooseBtn = document.createElement("div");
-                timeChooseBtn.innerHTML = `<div class="time-choose-btn" onclick="isSelected(event);">${startTime}~${endTime}</div>`;
-                var innerDiv = timeChooseBtn.firstChild;
-                document.getElementById("timeSlots").appendChild(innerDiv);
-
+            for (var i = 0; i < workingHours.length; i++) {
+                var timeRange = workingHours[i];
+                var [start, end] = timeRange.split("~");
+                var startTime = new Date(`2000-01-01T${start}:00`);
+                var endTime = new Date(`2000-01-01T${end}:00`);
+                var currentTime = new Date(startTime);
+                // 每20分鐘生成一個時間區塊
+                while (currentTime < endTime) {
+                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    currentTime.setMinutes(currentTime.getMinutes() + 20);
+                    var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    var timeChooseBtn = document.createElement("div");
+                    timeChooseBtn.innerHTML = `<div class="time-choose-btn" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
+                    var innerDiv = timeChooseBtn.firstChild;
+                    document.getElementById("timeSlots").appendChild(innerDiv);
+                }
             }
         });
+
+        // 送出訂單
+        async function submitOrder() {
+            var selectedTimeArray = [];
+            document.querySelectorAll('.time-choose-btn.selected').forEach(function (element) {
+                selectedTimeArray.push(element.textContent.trim());
+            });
+            var formattedTimeArray = combineFixOrderTime(selectedTimeArray).join(' ');
+            Swal.fire({
+                title: '確認訂單時間',
+                text: formattedTimeArray,
+                showCancelButton: true,
+                confirmButtonText: '確認',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // await sendRequest("loginLog", phoneValue);
+                    // window.location.href = "/menu";
+                }
+            });
+        }
 
         function isSelected(event) {
             if (event.target.classList.contains('selected')) {

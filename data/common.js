@@ -8,7 +8,6 @@ async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
 	const url = googleAppsScriptUrl;
 	try {
 		const sendData = { status: status, phone: phone, data: data };
-
 		// 將資料轉換成查詢字串
 		const queryString = new URLSearchParams(sendData).toString();
 
@@ -77,4 +76,33 @@ function getUrlQueryParametersByName(name) {
 	if (!results) return null;
 	if (!results[2]) return '';
 	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+// 輸入切割分散的timeArray，整理並合併後回傳
+function combineFixOrderTime(timeArrays) {
+	// 映射為包含起始和結束時間的物件陣列
+	var timeRanges = timeArrays.map(function (timeArray) {
+		var [startTime, endTime] = timeArray.split("~");
+		return { startTime, endTime };
+	});
+	// 按照起始時間排序
+	timeRanges.sort((a, b) => a.startTime.localeCompare(b.startTime));
+	// 建立陣列存儲分組後的時間段
+	var groupedTimePeriods = [];
+	// 遍歷排序後的時間段，進行分組
+	timeRanges.forEach(function (range, index) {
+		if (index === 0) {
+			groupedTimePeriods.push(range);
+		} else {
+			if (range.startTime > groupedTimePeriods[groupedTimePeriods.length - 1].endTime) {
+				groupedTimePeriods.push(range);
+			} else {
+				groupedTimePeriods[groupedTimePeriods.length - 1].endTime = range.endTime;
+			}
+		}
+	});
+	// 將合併後的時間段陣列轉換為格式化的字串陣列
+	var groupedTimePeriods = groupedTimePeriods.map(({ startTime, endTime }) => `${startTime}~${endTime}`);
+	// 輸出分組後的時間段陣列
+	return groupedTimePeriods;
 }
