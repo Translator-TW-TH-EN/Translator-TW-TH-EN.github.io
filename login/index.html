@@ -27,8 +27,9 @@
 
     <div class="container">
         <div class="container-item container-padding">
-            <div style="justify-content: center; display: flex; height: 50px; font-weight: bold; align-items: center;">
-                <span>只要輸入電話，即可直接登入使用</span>
+            <div class="container-just-word" style="height: 70px;font-size: large;">
+                <span>只要輸入電話</span>
+                <span>即可直接登入使用</span>
             </div>
         </div>
     </div>
@@ -54,13 +55,26 @@
 <script>
     // 送出登入
     async function submitLogin() {
-        var phoneValue = document.getElementById('phone').value;
+        var phoneValue = document.getElementById('phone').value.replace(/\s/g, '');;
 
         // 檢查是否輸入了電話號碼
         // 只允許包含數字
         var regex = /^\d+$/;
-        if (phoneValue.trim() === '' || !regex.test(phoneValue)) {
-            alert('請輸入正確電話號碼，只接受數字!');
+        if (phoneValue.trim() === '') {
+            Swal.fire({
+                title: '請輸入電話',
+                confirmButtonText: '確認',
+                icon: 'info',
+            });
+            return;
+        }
+        else if (!regex.test(phoneValue)) {
+            Swal.fire({
+                title: '格式錯誤',
+                html: "只接受純數字 !!",
+                confirmButtonText: '確認',
+                icon: 'info',
+            });
             return;
         }
 

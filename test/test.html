@@ -6,15 +6,15 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="彈跳視窗範例      點擊彈跳     function showPopup() {     Swal.fire({       title: &#39;標題&#39;,       text: &#39;這裡是彈跳視窗內容。&#39;,       showCancelButton: true, &#x2F;&#x2F; 顯示取消按鈕       confirmButtonText: &#39;確認&#39;,       cancelB">
+  <meta name="description" content="電話號碼輸入限制           電話號碼：">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://translator-tw-th-en.github.io/test/test.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="彈跳視窗範例      點擊彈跳     function showPopup() {     Swal.fire({       title: &#39;標題&#39;,       text: &#39;這裡是彈跳視窗內容。&#39;,       showCancelButton: true, &#x2F;&#x2F; 顯示取消按鈕       confirmButtonText: &#39;確認&#39;,       cancelB">
+<meta property="og:description" content="電話號碼輸入限制           電話號碼：">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-01-29T10:25:37.759Z">
-<meta property="article:modified_time" content="2024-01-29T10:25:37.759Z">
+<meta property="article:published_time" content="2024-01-30T07:24:13.155Z">
+<meta property="article:modified_time" content="2024-01-30T07:24:13.155Z">
 <meta property="article:author" content="Albert Wang">
 <meta name="twitter:card" content="summary">
   
@@ -82,7 +82,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/test/test.html" class="article-date">
-  <time class="dt-published" datetime="2024-01-29T10:25:37.759Z" itemprop="datePublished">2024-01-29</time>
+  <time class="dt-published" datetime="2024-01-30T07:24:13.155Z" itemprop="datePublished">2024-01-30</time>
 </a>
     
   </div>
@@ -92,33 +92,19 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>彈跳視窗範例</title>
-
-
+  <title>電話號碼輸入限制</title>
 </head>
 <body>
 
-<button onclick="showPopup()">點擊彈跳</button>
-
-<script>
-  function showPopup() {
-    Swal.fire({
-      title: '標題',
-      text: '這裡是彈跳視窗內容。',
-      showCancelButton: true, // 顯示取消按鈕
-      confirmButtonText: '確認',
-      cancelButtonText: '取消'
-    }).then((result) => {
-      // 使用者點擊確認按鈕
-      if (result.isConfirmed) {
-      } 
-    });
-  }
-</script>
+  <form>
+    <label for="phone">電話號碼：</label>
+    <input type="text" id="phone" name="phone" required autocomplete="tel" pattern="[0-9]+" title="只能輸入數字">
+    <input type="submit" value="提交">
+  </form>
 
 </body>
 </html>

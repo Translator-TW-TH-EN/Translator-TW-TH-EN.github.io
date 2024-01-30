@@ -16,7 +16,7 @@ async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
 		console.log("Data sent:", sendData);
 		console.log("Response:", responseData);
 		if (responseData.status === 'ok') { return responseData; }
-		else { alert("向google apps script寄送請求時\n回傳值非ok"); }
+		else { throw Error(JSON.stringify(responseData.msg)) }
 	} catch (error) {
 		// 忽略 "TypeError: Failed to fetch" 錯誤
 		if (!isDebug && error instanceof TypeError && error.message === "Failed to fetch") { return; }

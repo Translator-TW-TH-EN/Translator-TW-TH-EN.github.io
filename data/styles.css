@@ -60,11 +60,14 @@ footer a {
 }
 
 .container-just-word {
+	display: grid;
+	font-weight: bold;
+}
+
+.container-just-word span {
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	font-weight: bold;
 }
 
 .container-item {
@@ -135,7 +138,6 @@ footer a {
 	align-items: center;
 	z-index: 2;
 }
-
 
 .image-details-container {
 	position: relative;
@@ -302,4 +304,9 @@ footer a {
 .time-choose-btn.selected {
 	background-color: #4CAF50;
 	color: white;
+}
+
+.time-choose-btn.disabled-choose{
+	background-color: #ffffff;
+    color: #bcbcbc;
 }

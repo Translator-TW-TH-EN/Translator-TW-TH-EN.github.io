@@ -1,551 +1,171 @@
+
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="預約時間 	 		label { 			display: block; 			margin-bottom: 8px; 		}  		input[type&#x3D;&quot;checkbox&quot;] { 			display: none; 		}  		.time-slot { 			width: 100%; 			padding: 10px; 			margin-bottom: 10px; 			b">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://translator-tw-th-en.github.io/test/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="預約時間 	 		label { 			display: block; 			margin-bottom: 8px; 		}  		input[type&#x3D;&quot;checkbox&quot;] { 			display: none; 		}  		.time-slot { 			width: 100%; 			padding: 10px; 			margin-bottom: 10px; 			b">
-<meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-01-28T16:09:09.318Z">
-<meta property="article:modified_time" content="2024-01-28T16:09:09.318Z">
-<meta property="article:author" content="Albert Wang">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<meta name="generator" content="Hexo 7.0.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">歡迎來到這裡</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://Translator-TW-TH-EN.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/test/index.html" class="article-date">
-  <time class="dt-published" datetime="2024-01-28T16:09:09.318Z" itemprop="datePublished">2024-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>預約時間</title>
-	<style>
-		label {
-			display: block;
-			margin-bottom: 8px;
-		}
-
-		input[type="checkbox"] {
-			display: none;
-		}
-
-		.time-slot {
-			width: 100%;
-			padding: 10px;
-			margin-bottom: 10px;
-			box-sizing: border-box;
-			border: 1px solid #ccc;
-			cursor: pointer;
-		}
-
-		.time-slot:hover {
-			background-color: #f0f0f0;
-		}
-
-		.time-slot input[type="checkbox"]:checked {
-			background-color: #4CAF50;
-			color: white;
-		}
-
-		.time-slots {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-around;
-		}
-
-		@keyframes gradientAnimation {
-			0% {
-				background-position: 0% 50%;
-			}
-
-			50% {
-				background-position: 100% 50%;
-			}
-
-			100% {
-				background-position: 0% 50%;
-			}
-		}
-
-		body {
-			font-family: 'Arial', sans-serif;
-			margin: 0;
-			padding: 0;
-			background-color: #f4f4f4;
-			background-size: cover;
-			background-position: center;
-			background-repeat: no-repeat;
-			overflow: hidden;
-			background: linear-gradient(45deg, #d0ecff, #f7e2ff, #ffecec, #c9e9ff);
-			background-size: 500% 500%;
-			animation: gradientAnimation 15s infinite;
-			overflow-y: auto;
-		}
-
-		header {
-			background-color: #333;
-			color: #fff;
-			padding: 1rem;
-			text-align: center;
-		}
-
-		footer {
-			background-color: #333;
-			color: #fff;
-			padding: 1rem 0;
-			text-align: center;
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-		}
-
-		footer a {
-			color: #fff;
-			text-decoration: none;
-		}
-
-		.container {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-around;
-		}
-
-		.container-padding {
-			padding: 10px;
-			width: 350px;
-		}
-
-		.container-item {
-			width: 300px;
-			background-color: #fff;
-			border-radius: 8px;
-			margin: 10px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
-
-		.container-choose {
-			cursor: pointer;
-			transition: transform 0.3s ease-in-out;
-		}
-
-		.container-choose:hover {
-			transform: scale(1.05);
-		}
-
-		.container-item>img {
-			width: 35%;
-			border-radius: 8px;
-			margin: 10px 20px 10px 10px;
-			object-fit: cover;
-			overflow: hidden;
-			font-size: 0.8rem;
-		}
-
-		.container-fixed-height {
-			height: 160px;
-		}
-
-		.form-field {
-			margin-bottom: 15px;
-		}
-
-		.form-field label {
-			display: block;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
-
-		.form-field input {
-			width: calc(100% - 20px);
-			padding: 8px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
-
-		.form-field button {
-			width: 100%;
-			padding: 10px;
-			background-color: #333;
-			color: #fff;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		#image-details {
-			display: none;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			justify-content: center;
-			align-items: center;
-			z-index: 2;
-		}
-
-
-		.image-details-container {
-			position: relative;
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			transition: transform 0.5s ease;
-		}
-
-		.image-details-item {
-			flex: 0 0 100vw;
-			height: 100%;
-			overflow: hidden;
-			box-sizing: border-box;
-		}
-
-		#image-details img {
-			position: relative;
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
-			max-height: 100%;
-			max-width: 100%;
-		}
-
-		.image-details-black-background {
-			/* 完全覆蓋黑色 */
-			position: fixed;
-			width: 200%;
-			height: 200%;
-			background: rgba(0, 0, 0, 0.8);
-		}
-
-		.nav-button {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			background-color: rgba(255, 255, 255, 0.5);
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			z-index: 3;
-			border: none;
-			outline: none;
-			text-align: center;
-			font-size: max(4vw, 20px);
-			height: 8vh;
-			width: 12vw;
-			color: #292929;
-		}
-
-		.left-button {
-			left: 0;
-			border-radius: 0 5px 5px 0;
-		}
-
-		.right-button {
-			right: 0;
-			border-radius: 5px 0 0 5px;
-		}
-
-		.container-details {
-			display: none;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.8);
-			justify-content: center;
-			align-items: center;
-			z-index: 1;
-		}
-
-		.details-content {
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 8px;
-			text-align: center;
-			height: 85%;
-			overflow-y: auto;
-			font-size: larger;
-		}
-
-		.details-content img {
-			width: 100%;
-			border-radius: 8px;
-			max-height: 80%;
-			object-fit: cover;
-			overflow: hidden;
-			max-width: 600px;
-
-		}
-
-		.close-btn {
-			cursor: pointer;
-			color: #000000;
-			font-size: 30px;
-			float: right;
-			margin-top: -15px;
-		}
-
-		.lady-body-tags {
-			padding: 0.2rem 0.6rem;
-			line-height: 1.2rem;
-			border-radius: 1.2rem;
-			color: #ffffff;
-			display: inline-block;
-			margin: 2px;
-		}
-
-		.container-item .lady-body-tags {
-			padding: 0 0.6rem;
-			font-size: 0.8rem;
-		}
-
-		.feedback-container+div {
-			margin-left: 5px;
-			font-size: 0.8rem;
-		}
-
-		.container-item .feedback-container {
-			display: flex;
-			align-items: center;
-			margin: 5px
-		}
-
-		.details-content .feedback-container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-		}
-
-		.container-item .feedback-container img {
-			width: 15px;
-			height: 15px;
-		}
-
-		.details-content .feedback-container img {
-			width: 28px;
-			height: 28px;
-		}
-
-		.send-menu-btn {
-			display: block;
-			padding: 0.2rem;
-			border-radius: 0.5rem;
-			color: #ffffff;
-			background-color: rgb(252, 122, 108);
-			border: 2px solid #3d3d3d;
-			box-shadow: 3px 3px 2px rgb(255 0 0 / 30%);
-		}
-
-		.time-choose-btn {
-			border-radius: 1.2rem;
-			background-color: #e7e7e7;
-			font-size: 0.8rem;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>translator-tw-th-en</title>
+    <!-- 引入 SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <!-- 引入 SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
+    <!-- 載入資料 -->
+    <script src="../data/common.js"></script>
+    <script src="../data/loginCheck.js"></script>
+    <script src="../data/browserCheck.js"></script>
+    <script src="../data/data.js"></script>
+    <script src="../data/loader.js" loading-on="true"></script>
+    <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
 <body>
-	<div class="container">
-		<div class="container-item container-padding">
-			<div style="justify-content: center; display: flex; height: 50px; font-weight: bold; align-items: center;">
-				<span>選擇時間</span>
-			</div>
-		</div>
-	</div>
 
-	<div class="container" id="container" >
-		<div class="container-item  container-padding">
+    <header>
+        <!-- 這裡會自動填入登入之帳號 -->
+    </header>
 
-			<!-- 使用JavaScript生成時間區塊 -->
-			<div class="container">
-				<label class="time-choose-btn">00:40~01:00</label>
-				<label class="time-choose-btn">01:00~01:20</label>
-				<label class="time-choose-btn">01:20~01:40</label>
-				<label class="time-choose-btn">01:40~02:00</label>
-				<label class="time-choose-btn">02:00~02:20</label>
-				<label class="time-choose-btn">02:20~02:40</label>
-			</div>
-		</div>
-	</div>
-
-</body>
-
-</html>
-      
+    <div class="container">
+        <div class="container-item container-padding">
+            <div class="container-just-word" style="height: 70px;font-size: large;">
+                <span id="ladyNameDisplay"></span>
+                <span>選擇時間(可複選)</span>
+            </div>
+        </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://translator-tw-th-en.github.io/test/index.html" data-id="clrk7nqgv0006g0u920438u6v" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
+
+    <div class="container">
+        <div class="container-item  container-padding">
+
+            <div class="container" id="timeSlots">
+                <!-- 使用JavaScript生成時間區塊 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-bottom: 60px;">
+        <div class="container-item container-padding">
+            <div class="container-choose form-field">
+                <button onclick="submitOrder()">送出</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="#" onclick="logOut()">登出</a>
     </footer>
-  </div>
-  
-    
-  
-</article>
 
+    <script>
+        var phoneCookie = getCookie("phone");
+        var ladyName = getUrlQueryParametersByName('ladyName');
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+        document.addEventListener('DOMContentLoaded', async function () {
+            // 若無登入過則不執行
+            if (!phoneCookie) return;
+            if (!ladyName) window.location.href = "/menu";
+            document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
+            // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
+            var workingHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][0]);
+            // var bookedHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][1]).map(item => Object.values(item)[0]);
+            // alert(bookedHours)
+            // alert(typeof bookedHours)
+            if (workingHours.length === 0) {
+                Swal.fire({
+                    title: '目前無提供服務',
+                    confirmButtonText: '確認',
+                    icon: 'info',
+                }).then((result) => {
+                    window.location.href = "/menu";
+                });
+            }
+            // 使用JavaScript生成 workingHours時間區塊
+            for (var i = 0; i < workingHours.length; i++) {
+                var timeRange = workingHours[i];
+                var [start, end] = timeRange.split("~");
+                var startTime = new Date(`2000-01-01T${start}:00`);
+                var endTime = new Date(`2000-01-01T${end}:00`);
+                var currentTime = new Date(startTime);
+                // 每20分鐘生成一個時間區塊
+                while (currentTime < endTime) {
+                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    currentTime.setMinutes(currentTime.getMinutes() + 20);
+                    var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    var timeChooseBtn = document.createElement("div");
+                    timeChooseBtn.innerHTML = `
+                        <div class="time-choose-btn"  onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
+                    var innerDiv = timeChooseBtn.firstChild;
+                    document.getElementById("timeSlots").appendChild(innerDiv);
+                }
+            }
+            // 使用JavaScript黯淡 bookedHours時間區塊，已經被預訂了 不能選擇
+            // for (var i = 0; i < bookedHours.length; i++) {
+            //     var timeRange = bookedHours[i];
+            //     var [start, end] = timeRange.split("~");
+            //     var startTime = new Date(`2000-01-01T${start}:00`);
+            //     var endTime = new Date(`2000-01-01T${end}:00`);
+            //     var currentTime = new Date(startTime);
+            //     // 每20分鐘生成一個時間區塊
+            //     while (currentTime < endTime) {
+            //         var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            //         currentTime.setMinutes(currentTime.getMinutes() + 20);
+            //         var timeChooseBtn = document.getElementById(formattedTimeStart);
+            //         timeChooseBtn.removeAttribute('onclick');
+            //         timeChooseBtn.classList.add('disabled-choose');
+            //     }
+            // }
+            document.getElementById('loader').style.display = 'none';
+        });
 
-  
-    
+        // 送出訂單
+        async function submitOrder() {
+            var selectedTimeArray = [];
+            var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
+            if (selectedElements.length === 0) {
+                Swal.fire({
+                    title: '請選擇時段',
+                    confirmButtonText: '確認',
+                    icon: 'info',
+                });
+                return;
+            }
+            selectedElements.forEach(function (element) {
+                selectedTimeArray.push(element.textContent.trim());
+            });
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">彙整</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li></ul>
-    </div>
-  </div>
+            var orderTime = combineFixOrderTime(selectedTimeArray);
+            try {
+                const result = await Swal.fire({
+                    title: '確認訂單時間',
+                    html: orderTime.join('<br>'),
+                    showCancelButton: true,
+                    confirmButtonText: '確認',
+                    cancelButtonText: '取消',
+                });
+                if (result.isConfirmed) {
+                    document.getElementById('loader').style.display = 'flex';
+                    await sendRequest("setOrderTime", phoneCookie, JSON.stringify({ [ladyName]: orderTime }));
+                    window.location.href = "/menu";
+                }
+            } catch (error) {
+                alert(error)
+                location.reload();
+            }
+        }
 
+        function isSelected(event) {
+            if (event.target.classList.contains('selected')) {
+                event.target.classList.remove('selected');
+            } else {
+                event.target.classList.add('selected');
+            }
+        }
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/index.html">index</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 Albert Wang<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+        function logOut() {
+            var pastDate = new Date(0);
+            document.cookie = "phone=; expires=" + pastDate.toUTCString() + "; path=/";
+            window.location.href = "/login";
+        }
+    </script>
 </body>
+
 </html>

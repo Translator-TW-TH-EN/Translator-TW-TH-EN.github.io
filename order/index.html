@@ -15,7 +15,7 @@
     <script src="../data/loginCheck.js"></script>
     <script src="../data/browserCheck.js"></script>
     <script src="../data/data.js"></script>
-    <script src="../data/loader.js" loading-on="false"></script>
+    <script src="../data/loader.js" loading-on="true"></script>
     <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
@@ -27,7 +27,7 @@
 
     <div class="container">
         <div class="container-item container-padding">
-            <div class="container-just-word" style="height: 50px;">
+            <div class="container-just-word" style="height: 70px;font-size: large;">
                 <span id="ladyNameDisplay"></span>
                 <span>選擇時間(可複選)</span>
             </div>
@@ -56,16 +56,26 @@
     </footer>
 
     <script>
+        var phoneCookie = getCookie("phone");
+        var ladyName = getUrlQueryParametersByName('ladyName');
+
         document.addEventListener('DOMContentLoaded', async function () {
             // 若無登入過則不執行
-            if (!getCookie("phone")) return;
-            var ladyName = getUrlQueryParametersByName('ladyName');
+            if (!phoneCookie) return;
             if (!ladyName) window.location.href = "/menu";
             document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
             // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
-            var workingHours = JSON.parse((await sendRequest("getWorkingHours", getCookie("phone"), data = ladyName)).data);
-            alert(workingHours)
-            alert(typeof workingHours)
+            var workingHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][0]);
+            var bookedHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][1]).flatMap(item => Object.values(item)[0]);
+            if (workingHours.length === 0) {
+                Swal.fire({
+                    title: '目前無提供服務',
+                    confirmButtonText: '確認',
+                    icon: 'info',
+                }).then((result) => {
+                    window.location.href = "/menu";
+                });
+            }
             // 使用JavaScript生成時間區塊
             for (var i = 0; i < workingHours.length; i++) {
                 var timeRange = workingHours[i];
@@ -79,32 +89,64 @@
                     currentTime.setMinutes(currentTime.getMinutes() + 20);
                     var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                     var timeChooseBtn = document.createElement("div");
-                    timeChooseBtn.innerHTML = `<div class="time-choose-btn" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
+                    timeChooseBtn.innerHTML = `<div class="time-choose-btn" id="${formattedTimeStart}" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
                     var innerDiv = timeChooseBtn.firstChild;
                     document.getElementById("timeSlots").appendChild(innerDiv);
                 }
             }
+            // 使用JavaScript黯淡 bookedHours時間區塊，已經被預訂了 不能選擇
+            for (var i = 0; i < bookedHours.length; i++) {
+                var timeRange = bookedHours[i];
+                var [start, end] = timeRange.split("~");
+                var startTime = new Date(`2000-01-01T${start}:00`);
+                var endTime = new Date(`2000-01-01T${end}:00`);
+                var currentTime = new Date(startTime);
+                // 每20分鐘生成一個時間區塊
+                while (currentTime < endTime) {
+                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    currentTime.setMinutes(currentTime.getMinutes() + 20);
+                    var timeChooseBtn = document.getElementById(formattedTimeStart);
+                    timeChooseBtn.removeAttribute('onclick');
+                    timeChooseBtn.classList.add('disabled-choose');
+                }
+            }
+            document.getElementById('loader').style.display = 'none';
         });
 
         // 送出訂單
         async function submitOrder() {
             var selectedTimeArray = [];
-            document.querySelectorAll('.time-choose-btn.selected').forEach(function (element) {
+            var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
+            if (selectedElements.length === 0) {
+                Swal.fire({
+                    title: '請選擇時段',
+                    confirmButtonText: '確認',
+                    icon: 'info',
+                });
+                return;
+            }
+            selectedElements.forEach(function (element) {
                 selectedTimeArray.push(element.textContent.trim());
             });
-            var formattedTimeArray = combineFixOrderTime(selectedTimeArray).join(' ');
-            Swal.fire({
-                title: '確認訂單時間',
-                text: formattedTimeArray,
-                showCancelButton: true,
-                confirmButtonText: '確認',
-                cancelButtonText: '取消'
-            }).then((result) => {
+
+            var orderTime = combineFixOrderTime(selectedTimeArray);
+            try {
+                const result = await Swal.fire({
+                    title: '確認訂單時間',
+                    html: orderTime.join('<br>'),
+                    showCancelButton: true,
+                    confirmButtonText: '確認',
+                    cancelButtonText: '取消',
+                });
                 if (result.isConfirmed) {
-                    // await sendRequest("loginLog", phoneValue);
-                    // window.location.href = "/menu";
+                    document.getElementById('loader').style.display = 'flex';
+                    await sendRequest("setOrderTime", phoneCookie, JSON.stringify({ [ladyName]: orderTime }));
+                    window.location.href = "/menu";
                 }
-            });
+            } catch (error) {
+                alert(error)
+                location.reload();
+            }
         }
 
         function isSelected(event) {
