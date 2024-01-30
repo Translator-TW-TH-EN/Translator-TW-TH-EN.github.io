@@ -6,15 +6,15 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="電話號碼輸入限制           電話號碼：">
+  <meta name="description" content="美化下拉選單        .custom-dropdown {       padding: 8px;       font-size: 16px;       border: 1px solid #ccc;       border-radius: 4px;       outline: none;     }      .custom-dropdown:focus {">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://translator-tw-th-en.github.io/test/test.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="電話號碼輸入限制           電話號碼：">
+<meta property="og:description" content="美化下拉選單        .custom-dropdown {       padding: 8px;       font-size: 16px;       border: 1px solid #ccc;       border-radius: 4px;       outline: none;     }      .custom-dropdown:focus {">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-01-30T07:24:13.155Z">
-<meta property="article:modified_time" content="2024-01-30T07:24:13.155Z">
+<meta property="article:published_time" content="2024-01-30T13:35:49.329Z">
+<meta property="article:modified_time" content="2024-01-30T13:35:49.329Z">
 <meta property="article:author" content="Albert Wang">
 <meta name="twitter:card" content="summary">
   
@@ -82,7 +82,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/test/test.html" class="article-date">
-  <time class="dt-published" datetime="2024-01-30T07:24:13.155Z" itemprop="datePublished">2024-01-30</time>
+  <time class="dt-published" datetime="2024-01-30T13:35:49.329Z" itemprop="datePublished">2024-01-30</time>
 </a>
     
   </div>
@@ -96,16 +96,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>電話號碼輸入限制</title>
+  <title>美化下拉選單</title>
+  <style>
+    .custom-dropdown {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .custom-dropdown:focus {
+      border-color: #2196F3;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
+    }
+  </style>
 </head>
 <body>
-
-  <form>
-    <label for="phone">電話號碼：</label>
-    <input type="text" id="phone" name="phone" required autocomplete="tel" pattern="[0-9]+" title="只能輸入數字">
-    <input type="submit" value="提交">
-  </form>
-
+  <label for="daysDropdown">選擇一個日期：</label>
+  <select id="daysDropdown" class="custom-dropdown">
+    <!-- 使用 JavaScript 生成七天的選項 -->
+    <script>
+      var daysDropdown = document.getElementById('daysDropdown');
+      var today = new Date();
+      
+      for (var i = 1; i <= 7; i++) {
+        var nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + i);
+        
+        var option = document.createElement('option');
+        option.value = nextDay.toISOString().split('T')[0];
+        
+        // 自定義星期的格式，例如 "日" 或 "Sun"
+        var dayOfWeek = new Intl.DateTimeFormat('zh-TW', { weekday: 'short' }).format(nextDay);
+        option.textContent = `${nextDay.toLocaleDateString('zh-TW')} (${dayOfWeek})`;
+        
+        daysDropdown.appendChild(option);
+      }
+    </script>
+  </select>
 </body>
 </html>
 

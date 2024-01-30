@@ -299,6 +299,7 @@ footer a {
 	font-size: 0.8rem;
 	padding: 8px;
 	margin-bottom: 8px;
+	width: 70px;
 }
 
 .time-choose-btn.selected {
@@ -306,7 +307,20 @@ footer a {
 	color: white;
 }
 
-.time-choose-btn.disabled-choose{
+.time-choose-btn.disabled-choose {
 	background-color: #ffffff;
-    color: #bcbcbc;
+	color: #bcbcbc;
+}
+
+.custom-dropdown {
+	padding: 8px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	outline: none;
+}
+
+.custom-dropdown:focus {
+	border-color: #2196F3;
+	box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
 }

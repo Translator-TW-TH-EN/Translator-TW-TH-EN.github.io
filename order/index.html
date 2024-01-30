@@ -34,6 +34,19 @@
         </div>
     </div>
 
+
+    <div class="container">
+        <div class="container-item container-padding">
+            <div class="container-just-word" style="height: 70px;font-size: large;">
+                <label for="daysDropdown">選擇一個日期：</label>
+                <select id="daysDropdown" class="custom-dropdown">
+                  <!-- 使用 JavaScript 生成 後七天的選項 -->
+                </select>
+              </body>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="container-item  container-padding">
 
@@ -64,6 +77,21 @@
             if (!phoneCookie) return;
             if (!ladyName) window.location.href = "/menu";
             document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
+            // -------------------
+            var today = new Date();
+            for (var i = 1; i <= 7; i++) {
+                var nextDay = new Date(today);
+                nextDay.setDate(today.getDate() + i);
+
+                var option = document.createElement('option');
+                option.value = nextDay.toISOString().split('T')[0];
+
+                // 自定義星期的格式，例如 "日" 或 "Sun"
+                var dayOfWeek = new Intl.DateTimeFormat('zh-TW', { weekday: 'short' }).format(nextDay);
+                option.textContent = `${nextDay.toLocaleDateString('zh-TW')} (${dayOfWeek})`;
+
+                document.getElementById('daysDropdown').appendChild(option);
+            }
             // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
             var workingHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][0]);
             var bookedHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][1]).flatMap(item => Object.values(item)[0]);
