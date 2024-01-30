@@ -39,10 +39,9 @@
         <div class="container-item container-padding">
             <div class="container-just-word" style="height: 70px;font-size: large;">
                 <label for="daysDropdown">選擇一個日期：</label>
-                <select id="daysDropdown" class="custom-dropdown">
-                  <!-- 使用 JavaScript 生成 後七天的選項 -->
+                <select id="daysDropdown" class="custom-dropdown" onchange="daysDropdownChange(this)">
+                    <!-- 使用 JavaScript 生成 後七天日期的下拉選單 -->
                 </select>
-              </body>
             </div>
         </div>
     </div>
@@ -71,30 +70,39 @@
     <script>
         var phoneCookie = getCookie("phone");
         var ladyName = getUrlQueryParametersByName('ladyName');
+        var workingData;
 
         document.addEventListener('DOMContentLoaded', async function () {
             // 若無登入過則不執行
             if (!phoneCookie) return;
             if (!ladyName) window.location.href = "/menu";
             document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
-            // -------------------
+            // 使用 JavaScript 生成 後七天日期的下拉選單
             var today = new Date();
-            for (var i = 1; i <= 7; i++) {
+            for (var laterDay = 1; laterDay <= 7; laterDay++) {
                 var nextDay = new Date(today);
-                nextDay.setDate(today.getDate() + i);
+                nextDay.setDate(today.getDate() + laterDay);
 
                 var option = document.createElement('option');
-                option.value = nextDay.toISOString().split('T')[0];
+                option.value = laterDay;
 
-                // 自定義星期的格式，例如 "日" 或 "Sun"
+                // 自定義星期的格式，"2024/1/31 (週三)"
                 var dayOfWeek = new Intl.DateTimeFormat('zh-TW', { weekday: 'short' }).format(nextDay);
                 option.textContent = `${nextDay.toLocaleDateString('zh-TW')} (${dayOfWeek})`;
 
                 document.getElementById('daysDropdown').appendChild(option);
             }
+            workingData = (await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0]
+            daysDropdownChange(document.getElementById('daysDropdown'))
+            document.getElementById('loader').style.display = 'none';
+        });
+
+        // 處理 daysDropdown下拉選單 切換日期，將會顯示對應日期的 workingHours及bookedHours
+        async function daysDropdownChange(daysDropdownElement) {
+            var correctedWeekDayIndex = (parseInt(daysDropdownElement.value) + new Date().getDay()) % 7;
             // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
-            var workingHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][0]);
-            var bookedHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][1]).flatMap(item => Object.values(item)[0]);
+            var workingHours = JSON.parse(workingData[correctedWeekDayIndex]);
+            var bookedHours = JSON.parse(workingData[7 + correctedWeekDayIndex]).flatMap(item => Object.values(item)[0]);
             if (workingHours.length === 0) {
                 Swal.fire({
                     title: '目前無提供服務',
@@ -104,9 +112,9 @@
                     window.location.href = "/menu";
                 });
             }
-            // 使用JavaScript生成時間區塊
-            for (var i = 0; i < workingHours.length; i++) {
-                var timeRange = workingHours[i];
+            // 使用 JavaScript 生成時間區塊
+            document.getElementById("timeSlots").innerHTML = ""
+            workingHours.forEach(function (timeRange) {
                 var [start, end] = timeRange.split("~");
                 var startTime = new Date(`2000-01-01T${start}:00`);
                 var endTime = new Date(`2000-01-01T${end}:00`);
@@ -121,10 +129,9 @@
                     var innerDiv = timeChooseBtn.firstChild;
                     document.getElementById("timeSlots").appendChild(innerDiv);
                 }
-            }
+            });
             // 使用JavaScript黯淡 bookedHours時間區塊，已經被預訂了 不能選擇
-            for (var i = 0; i < bookedHours.length; i++) {
-                var timeRange = bookedHours[i];
+            bookedHours.forEach(function (timeRange) {
                 var [start, end] = timeRange.split("~");
                 var startTime = new Date(`2000-01-01T${start}:00`);
                 var endTime = new Date(`2000-01-01T${end}:00`);
@@ -137,9 +144,8 @@
                     timeChooseBtn.removeAttribute('onclick');
                     timeChooseBtn.classList.add('disabled-choose');
                 }
-            }
-            document.getElementById('loader').style.display = 'none';
-        });
+            });
+        }
 
         // 送出訂單
         async function submitOrder() {
@@ -168,7 +174,8 @@
                 });
                 if (result.isConfirmed) {
                     document.getElementById('loader').style.display = 'flex';
-                    await sendRequest("setOrderTime", phoneCookie, JSON.stringify({ [ladyName]: orderTime }));
+                    var weekDay = parseInt(document.getElementById('daysDropdown').value)
+                    await sendRequest("setOrderTime", phoneCookie, JSON.stringify({ [ladyName]: orderTime, weekDay: weekDay }));
                     window.location.href = "/menu";
                 }
             } catch (error) {
