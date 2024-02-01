@@ -74,7 +74,7 @@
 
         document.addEventListener('DOMContentLoaded', async function () {
             // 若無登入過則不執行
-            if (!phoneCookie) return;
+            if (!phoneCookie) window.location.href = "/login";
             if (!ladyName) window.location.href = "/menu";
             document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
             // 使用 JavaScript 生成 後七天日期的下拉選單

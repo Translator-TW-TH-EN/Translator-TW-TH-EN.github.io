@@ -24,38 +24,6 @@ async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
 	}
 }
 
-// 自己的 flex2html (處理 原flex2html 錯誤) 目前沒用到!!!!!!!!
-function my_flexToHtml(flex2htmlElementName, flexJsonList) {
-	flexJsonMessage = {
-		type: "flex",
-		altText: "Flex Message",
-		contents: {
-			type: "carousel",
-			contents: [...flexJsonList]
-		}
-	}
-
-	if (!document.getElementById(flex2htmlElementName)) {
-		alert("未找到產生 flexJson 的元素")
-	}
-	document.getElementById(flex2htmlElementName).innerHTML = "";
-	flex2html(flex2htmlElementName, flexJsonMessage);
-
-	// 將 LySlider 關閉下方捲動軸
-	var wrongLySliderElements = document.querySelectorAll(".LySlider");
-	wrongLySliderElements.forEach(function (element) {
-		element.style.webkitOverflowScrolling = "auto";
-		// element.style.overflowX = "visible";
-		element.style.overflow = "hidden";
-	});
-
-	// 將 chatbox 上方空白縮短
-	var wrongChatboxElements = document.querySelectorAll(".chatbox");
-	wrongChatboxElements.forEach(function (element) {
-		element.style.paddingTop = "20px";
-	});
-}
-
 // 取得指定名稱的 cookie 值
 function getCookie(name) {
 	var cookies = document.cookie.split("; ");

@@ -71,7 +71,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             // 若無登入過則不執行
-            if (!getCookie("phone")) return;
+            if (!getCookie("phone")) window.location.href = "/login";
             // 創建全部的 orderData 資料
             var orderDatas = (await sendRequest("getOrderData")).data;
             var containerTempHTML = ""
