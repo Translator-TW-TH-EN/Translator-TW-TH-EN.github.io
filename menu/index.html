@@ -182,12 +182,6 @@
             // 使用到 查詢參數 一定要加上 index.html
             window.location.href = `/order/index.html?${queryParams.toString()}`;
         }
-
-        function logOut() {
-            var pastDate = new Date(0);
-            document.cookie = "phone=; expires=" + pastDate.toUTCString() + "; path=/";
-            window.location.href = "/login";
-        }
     </script>
 </body>
 

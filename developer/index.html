@@ -3,148 +3,114 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- 載入資料 -->
-	<script src="../data/common.js"></script>
-	<script src="../data/data.js"></script>
-	<link rel="stylesheet" type="text/css" href="../data/styles.css">
-	<!-- flex2html -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/PamornT/flex2html@main/css/flex2html.css" />
-	<script src="https://cdn.jsdelivr.net/gh/PamornT/flex2html@main/js/flex2html.min.js"></script>
-	<!-- liff -->
-	<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-	<!-- 提示框 -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.5/dist/sweetalert2.min.css" />
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.5/dist/sweetalert2.min.js"></script>
-	<!-- dom-to-image -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-	<script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
-	<!-- pickr 調色盤 -->
-	<link rel="stylesheet" type="text/css"
-		href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/nano.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>translator-tw-th-en</title>
+    <!-- 引入 SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <!-- 引入 SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
+    <!-- 載入資料 -->
+    <script src="../data/common.js"></script>
+    <script src="../data/loginCheck.js"></script>
+    <script src="../data/browserCheck.js"></script>
+    <script src="../data/data.js"></script>
+    <script src="../data/loader.js" loading-on="false"></script>
+    <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
 <body>
-	<div class="loader" id="loader">
-		<div class="sk-chase">
-			<div class="sk-chase-dot"></div>
-			<div class="sk-chase-dot"></div>
-			<div class="sk-chase-dot"></div>
-			<div class="sk-chase-dot"></div>
-			<div class="sk-chase-dot"></div>
-			<div class="sk-chase-dot"></div>
-		</div>
-	</div>
 
-	<div class="form-container">
-		<h1>LIFF Card Share</h1>
-		<div class="downloadFlex">
-			<div style="width: 310px; height: auto; overflow: hidden;">
-				<div class="chatbox">
-					<div id="flex2html_main"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="test"></div>
+    <header>
+        <!-- 這裡會自動填入登入之帳號 -->
+    </header>
 
-	<script>
-		function createFlex(data_card) {
-			mainTitle_1 = data_card.mainTitle_1 || mainTitle_1;
-			mainTitle_2 = data_card.mainTitle_2 || mainTitle_2;
-			memberId = data_card.memberId || memberId;
-			subTitle_2 = data_card.subTitle_2 || subTitle_2;
-			textContent_1 = data_card.textContent_1 || textContent_1;
-			textContent_1_url = data_card.textContent_1_url || textContent_1_url;
-			textContent_2 = data_card.textContent_2 || textContent_2;
-			textContent_2_url = data_card.textContent_2_url || textContent_2_url;
-			displayName = data_card.displayName || displayName;
-			textColor = data_card.textColor || textColor;
+    <div class="container">
+        <div class="container-item container-padding">
+            <div class="container-just-word" style="height: 70px;font-size: large;">
+                <label for="ladyNameDisplay">服務員：</label>
+                <select id="ladyNameDropdown" class="custom-dropdown" onchange="ladyNameDropdownChange(this)">
+                    <!-- 使用 JavaScript 生成 後七天日期的下拉選單 -->
+                </select>
+            </div>
+        </div>
+    </div>
 
-			// 創立並更新 flexJsonList 內容 (改變內部變數)
-			flexJsonList = createFlexJsonList()
-			// 將 flexJson 繪出到 HTML 上 (flexJsonList框已在data.js)
-			my_flexToHtml("flex2html_main", flexJsonList);
-		}
+    <div class="container">
+        <div class="container-item  container-padding">
+            <div class="container" id="timeSlots">
+                <input type="file" id="upload" accept="image/*">
+            </div>
+        </div>
+    </div>
 
-		window.onload = function () {
-			document.getElementById('loader').style.display = 'flex';
-			liff.init({ liffId: shareLIFFid }).then(() => {
-				// 獲取查詢字串
-				var queryString = window.location.search;
-				// 移除第一個問號字元 (?)
-				queryString = queryString.slice(1);
-				// 遍歷全部參數，將其拆分為參數名和值，並存到對象中
-				var parameters = {};
-				queryString.split('&').forEach(pair => {
-					const [paramName, paramValue] = pair.split('=').map(decodeURIComponent);
-					parameters[paramName] = paramValue;
-				});
+    <div class="container" style="margin-bottom: 60px;">
+        <div class="container-item container-padding">
+            <div class="container-choose form-field">
+                <button onclick="submitOrder()">送出</button>
+            </div>
+        </div>
+    </div>
 
-				if (!liff.isLoggedIn()) {
-					// 存入 cookie 防止登入後無資料查詢資串
-					document.cookie = "userId=" + parameters["userId"] + "; path=/";
-					document.cookie = "PromotionalCard=" + parameters["PromotionalCard"] + "; path=/";
-					liff.login();
-				} else {
-					userId = parameters["userId"] || document.cookie.split("; ").find((row) => row.startsWith("userId=")).split("=")[1]
-					PromotionalCard = parameters["PromotionalCard"] || (document.cookie.split("; ").find((row) => row.startsWith("PromotionalCard="))?.split("=")[1] ?? 0);
-					// 清除 cookie
-					document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-					document.cookie = "PromotionalCard=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-					async function send() {
-						var responseData = await sendRequest("get", userId);
-						if (responseData.status === "ok") {
-							// 會員卡片 cardJson[0] 讀取並紀錄存下 (flexJsonStatic框已在data.js)
-							flexJsonStatic = responseData.cardJson[PromotionalCard]
-							if (PromotionalCard) {
-								flexJsonStatic = flexJsonStatic.replace(/S{3,}/g, "https://liff.line.me/" + shareLIFFid + "/?userId=" + encodeURIComponent(userId) + "&PromotionalCard=" + PromotionalCard);
-							}
-							// document.getElementById('test').innerHTML = flexJsonStatic
+    <footer>
+        <a href="#" onclick="logOut()">登出</a>
+    </footer>
 
-							// 會員卡片 參數寫入
-							const data_card = JSON.parse(responseData.card);
-							createFlex(data_card);
-							// 送出提醒框 (彈跳視窗)
-							Swal.fire({
-								text: "請勿封鎖彈跳視窗",
-								timer: 800,
-								showConfirmButton: false
-							});
-							liff
-								.shareTargetPicker([flexJsonMessage])
-								.then(async function (res) {
-									if (res) {
-										// 向google sheet發送的增加閱讀數
-										await sendRequest("addReadCount", userId);
-										// 關閉 liff 視窗頁面 (手機)
-										try { liff.closeWindow(); } catch (e) { }
-										// 關閉 網頁 視窗頁面 (電腦)
-										try { window.close(); } catch (e) { }
-									} else {
-										const [majorVer, minorVer] = (liff.getLineVersion() || "").split(".");
-										if (parseInt(majorVer) < 10 || (parseInt(majorVer) == 10 && parseInt(minorVer) < 11)) {
-											alert("沒有 TargetPicker 功能\n請嘗試更新 LINE");
-										} else {
-											alert("有 TargetPicker 功能，但發送訊息未成功");
-										}
-									}
-								})
-								.catch(function (error) {
-									alert("分享傳送訊息失敗\n", err);
-								});
-						}
-					}
-					send();
-				}
-			});
-		};
-	</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+
+        });
+
+
+        // 檢查是否有新圖片更新到網頁並上傳
+        document.getElementById("upload").addEventListener("change", async function (event) {
+            document.getElementById("loader").style.display = "flex";
+            var file = event.target.files[0]; // 取得選擇的檔案
+            document.getElementById("upload_text").textContent = await uploadImg(file); // 上傳檔案並回傳URL
+            await sendRequest("save", userId, readShowCardData());
+            document.getElementById("loader").style.display = "none";
+        });
+
+        // 上傳檔案並回傳URL
+        function uploadImg(file) {
+            return new Promise((resolve, reject) => {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var fileBlob = dataURLtoBlob(reader.result);
+                    var formData = new FormData();
+                    formData.append("image", fileBlob);
+
+                    fetch("https://api.imgbb.com/1/upload?key=469893f217d6ae17c01f5f0b42118fcc", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            resolve(data.data.display_url);
+                        })
+                        .catch(function (error) {
+                            alert("上傳照片錯誤\n" + error);
+                            reject(error);
+                        });
+                };
+                reader.readAsDataURL(file);
+            });
+
+            function dataURLtoBlob(dataURL) {
+                var arr = dataURL.split(","); // 將資料URL分割成類型和資料部分
+                var mime = arr[0].match(/:(.*?);/)[1]; // 提取資料URL中的MIME類型
+                var bstr = atob(arr[1]); // 解碼Base64編碼的資料部分
+                var n = bstr.length;
+                var u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n); // 轉換為Uint8Array
+                }
+                return new Blob([u8arr], { type: mime }); // 創建Blob物件
+            }
+        }
+    </script>
 </body>
 
 </html>

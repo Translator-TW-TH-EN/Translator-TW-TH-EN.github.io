@@ -15,7 +15,7 @@
     <script src="../data/loginCheck.js"></script>
     <script src="../data/browserCheck.js"></script>
     <script src="../data/data.js"></script>
-    <script src="../data/loader.js" loading-on="true"></script>
+    <script src="../data/loader.js" loading-on="false"></script>
     <link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
@@ -34,11 +34,22 @@
         </div>
     </div>
 
+
+    <div class="container">
+        <div class="container-item container-padding">
+            <div class="container-just-word" style="height: 70px;font-size: large;">
+                <label for="daysDropdown">選擇一個日期：</label>
+                <select id="daysDropdown" class="custom-dropdown" onchange="daysDropdownChange(this)">
+                    <!-- 使用 JavaScript 生成 後七天日期的下拉選單 -->
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="container-item  container-padding">
-
             <div class="container" id="timeSlots">
-                <!-- 使用JavaScript生成時間區塊 -->
+                <input type="file" id="upload" accept="image/*">
             </div>
         </div>
     </div>
@@ -56,114 +67,58 @@
     </footer>
 
     <script>
-        var phoneCookie = getCookie("phone");
-        var ladyName = getUrlQueryParametersByName('ladyName');
-
         document.addEventListener('DOMContentLoaded', async function () {
-            // 若無登入過則不執行
-            if (!phoneCookie) return;
-            if (!ladyName) window.location.href = "/menu";
-            document.getElementById("ladyNameDisplay").innerText = "服務員：" + ladyName;
-            // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
-            var workingHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][0]);
-            // var bookedHours = JSON.parse((await sendRequest("getWorkingHours", phoneCookie, ladyName)).data[0][1]).map(item => Object.values(item)[0]);
-            // alert(bookedHours)
-            // alert(typeof bookedHours)
-            if (workingHours.length === 0) {
-                Swal.fire({
-                    title: '目前無提供服務',
-                    confirmButtonText: '確認',
-                    icon: 'info',
-                }).then((result) => {
-                    window.location.href = "/menu";
-                });
-            }
-            // 使用JavaScript生成 workingHours時間區塊
-            for (var i = 0; i < workingHours.length; i++) {
-                var timeRange = workingHours[i];
-                var [start, end] = timeRange.split("~");
-                var startTime = new Date(`2000-01-01T${start}:00`);
-                var endTime = new Date(`2000-01-01T${end}:00`);
-                var currentTime = new Date(startTime);
-                // 每20分鐘生成一個時間區塊
-                while (currentTime < endTime) {
-                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                    currentTime.setMinutes(currentTime.getMinutes() + 20);
-                    var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                    var timeChooseBtn = document.createElement("div");
-                    timeChooseBtn.innerHTML = `
-                        <div class="time-choose-btn"  onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
-                    var innerDiv = timeChooseBtn.firstChild;
-                    document.getElementById("timeSlots").appendChild(innerDiv);
-                }
-            }
-            // 使用JavaScript黯淡 bookedHours時間區塊，已經被預訂了 不能選擇
-            // for (var i = 0; i < bookedHours.length; i++) {
-            //     var timeRange = bookedHours[i];
-            //     var [start, end] = timeRange.split("~");
-            //     var startTime = new Date(`2000-01-01T${start}:00`);
-            //     var endTime = new Date(`2000-01-01T${end}:00`);
-            //     var currentTime = new Date(startTime);
-            //     // 每20分鐘生成一個時間區塊
-            //     while (currentTime < endTime) {
-            //         var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-            //         currentTime.setMinutes(currentTime.getMinutes() + 20);
-            //         var timeChooseBtn = document.getElementById(formattedTimeStart);
-            //         timeChooseBtn.removeAttribute('onclick');
-            //         timeChooseBtn.classList.add('disabled-choose');
-            //     }
-            // }
-            document.getElementById('loader').style.display = 'none';
+
         });
 
-        // 送出訂單
-        async function submitOrder() {
-            var selectedTimeArray = [];
-            var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
-            if (selectedElements.length === 0) {
-                Swal.fire({
-                    title: '請選擇時段',
-                    confirmButtonText: '確認',
-                    icon: 'info',
-                });
-                return;
-            }
-            selectedElements.forEach(function (element) {
-                selectedTimeArray.push(element.textContent.trim());
+
+        // 檢查是否有新圖片更新到網頁並上傳
+        document.getElementById("upload").addEventListener("change", async function (event) {
+            document.getElementById("loader").style.display = "flex";
+            var file = event.target.files[0]; // 取得選擇的檔案
+            document.getElementById("upload_text").textContent = await uploadImg(file); // 上傳檔案並回傳URL
+            await sendRequest("save", userId, readShowCardData());
+            document.getElementById("loader").style.display = "none";
+        });
+
+        // 上傳檔案並回傳URL
+        function uploadImg(file) {
+            return new Promise((resolve, reject) => {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var fileBlob = dataURLtoBlob(reader.result);
+                    var formData = new FormData();
+                    formData.append("image", fileBlob);
+
+                    fetch("https://api.imgbb.com/1/upload?key=469893f217d6ae17c01f5f0b42118fcc", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            resolve(data.data.display_url);
+                        })
+                        .catch(function (error) {
+                            alert("上傳照片錯誤\n" + error);
+                            reject(error);
+                        });
+                };
+                reader.readAsDataURL(file);
             });
 
-            var orderTime = combineFixOrderTime(selectedTimeArray);
-            try {
-                const result = await Swal.fire({
-                    title: '確認訂單時間',
-                    html: orderTime.join('<br>'),
-                    showCancelButton: true,
-                    confirmButtonText: '確認',
-                    cancelButtonText: '取消',
-                });
-                if (result.isConfirmed) {
-                    document.getElementById('loader').style.display = 'flex';
-                    await sendRequest("setOrderTime", phoneCookie, JSON.stringify({ [ladyName]: orderTime }));
-                    window.location.href = "/menu";
+            function dataURLtoBlob(dataURL) {
+                var arr = dataURL.split(","); // 將資料URL分割成類型和資料部分
+                var mime = arr[0].match(/:(.*?);/)[1]; // 提取資料URL中的MIME類型
+                var bstr = atob(arr[1]); // 解碼Base64編碼的資料部分
+                var n = bstr.length;
+                var u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n); // 轉換為Uint8Array
                 }
-            } catch (error) {
-                alert(error)
-                location.reload();
+                return new Blob([u8arr], { type: mime }); // 創建Blob物件
             }
-        }
-
-        function isSelected(event) {
-            if (event.target.classList.contains('selected')) {
-                event.target.classList.remove('selected');
-            } else {
-                event.target.classList.add('selected');
-            }
-        }
-
-        function logOut() {
-            var pastDate = new Date(0);
-            document.cookie = "phone=; expires=" + pastDate.toUTCString() + "; path=/";
-            window.location.href = "/login";
         }
     </script>
 </body>

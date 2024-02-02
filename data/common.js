@@ -36,6 +36,13 @@ function getCookie(name) {
 	return null;
 }
 
+// 登出
+function logOut() {
+	var pastDate = new Date(0);
+	document.cookie = "phone=; expires=" + pastDate.toUTCString() + "; path=/";
+	window.location.href = "/login";
+}
+
 // 這是一個用來解析 URL 查詢參數(urlQueryParams)的簡單函數
 function getUrlQueryParametersByName(name) {
 	name = name.replace(/[\[\]]/g, "\\$&");
