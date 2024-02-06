@@ -59,12 +59,12 @@ footer a {
 	padding: 10px;
 }
 
-.container-just-word {
+.container-grid-display {
 	display: grid;
 	font-weight: bold;
 }
 
-.container-just-word span {
+.container-grid-display span {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -318,4 +318,8 @@ footer a {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	outline: none;
+}
+
+.img-upload {
+	width: 70px;
 }

@@ -3,114 +3,206 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>translator-tw-th-en</title>
-    <!-- 引入 SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
-    <!-- 引入 SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
-    <!-- 載入資料 -->
-    <script src="../data/common.js"></script>
-    <script src="../data/loginCheck.js"></script>
-    <script src="../data/browserCheck.js"></script>
-    <script src="../data/data.js"></script>
-    <script src="../data/loader.js" loading-on="false"></script>
-    <link rel="stylesheet" type="text/css" href="../data/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>translator-tw-th-en</title>
+	<!-- 引入 SweetAlert2 CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+	<!-- 引入 SweetAlert2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
+	<!-- 載入資料 -->
+	<script src="../data/common.js"></script>
+	<script src="../data/loginCheck.js"></script>
+	<script src="../data/browserCheck.js"></script>
+	<script src="../data/data.js"></script>
+	<script src="../data/loader.js" loading-on="true"></script>
+	<link rel="stylesheet" type="text/css" href="../data/styles.css">
 </head>
 
 <body>
 
-    <header>
-        <!-- 這裡會自動填入登入之帳號 -->
-    </header>
+	<header>
+		<!-- 這裡會自動填入登入之帳號 -->
+	</header>
 
-    <div class="container">
-        <div class="container-item container-padding">
-            <div class="container-just-word" style="height: 70px;font-size: large;">
-                <label for="ladyNameDisplay">服務員：</label>
-                <select id="ladyNameDropdown" class="custom-dropdown" onchange="ladyNameDropdownChange(this)">
-                    <!-- 使用 JavaScript 生成 後七天日期的下拉選單 -->
-                </select>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="container-item container-padding">
+			<div class="container-grid-display" style="height: 70px;font-size: large;">
+				<label>服務員：</label>
+				<select id="ladyNameDropdown" class="custom-dropdown" onchange="ladyNameDropdownChange(this)">
+					<!-- 使用 JavaScript 生成 每位服務員資料的下拉選單 -->
+				</select>
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-        <div class="container-item  container-padding">
-            <div class="container" id="timeSlots">
-                <input type="file" id="upload" accept="image/*">
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>照片：</label>
+				<div style="margin: 5px;">
+					<input type="file" class="img-upload" id="imgUpload1" accept="image/*"
+						onchange="imgUploadChange(event)">
+					<a id="imgText1" target="_blank" style="font-size: medium; font-weight: normal;">請選擇圖片...</a>
+				</div>
+				<div style="margin: 5px;">
+					<input type="file" class="img-upload" id="imgUpload2" accept="image/*"
+						onchange="imgUploadChange(event)">
+					<a id="imgText2" target="_blank" style="font-size: medium; font-weight: normal;">請選擇圖片...</a>
+				</div>
+				<div style="margin: 5px;">
+					<input type="file" class="img-upload" id="imgUpload3" accept="image/*"
+						onchange="imgUploadChange(event)">
+					<a id="imgText3" target="_blank" style="font-size: medium; font-weight: normal;">請選擇圖片...</a>
+				</div>
+				<div style="margin: 5px;">
+					<input type="file" class="img-upload" id="imgUpload4" accept="image/*"
+						onchange="imgUploadChange(event)">
+					<a id="imgText4" target="_blank" style="font-size: medium; font-weight: normal;">請選擇圖片...</a>
+				</div>
+				<div style="margin: 5px;">
+					<input type="file" class="img-upload" id="imgUpload5" accept="image/*"
+						onchange="imgUploadChange(event)">
+					<a id="imgText5" target="_blank" style="font-size: medium; font-weight: normal;">請選擇圖片...</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="container" style="margin-bottom: 60px;">
-        <div class="container-item container-padding">
-            <div class="container-choose form-field">
-                <button onclick="submitOrder()">送出</button>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>描述：</label>
+				<input type="text" id="ladyDescription" style="margin: 5px; height: 120px;">
+			</div>
+		</div>
+	</div>
 
-    <footer>
-        <a href="#" onclick="logOut()">登出</a>
-    </footer>
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>年齡：</label>
+				<input type="number" id="ladyAge" style="margin: 5px;">
+			</div>
+		</div>
+	</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async function () {
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>身高：</label>
+				<input type="number" id="ladyHeight" style="margin: 5px;">
+			</div>
+		</div>
+	</div>
 
-        });
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>三圍：</label>
+				<input type="text" id="ladyBodyValues" style="margin: 5px;">
+			</div>
+		</div>
+	</div>
+
+	<div class="container" style="margin-bottom: 60px;">
+		<div class="container-item container-padding">
+			<div class="container-choose form-field">
+				<button onclick="submitOrder()">送出</button>
+			</div>
+		</div>
+	</div>
 
 
-        // 檢查是否有新圖片更新到網頁並上傳
-        document.getElementById("upload").addEventListener("change", async function (event) {
-            document.getElementById("loader").style.display = "flex";
-            var file = event.target.files[0]; // 取得選擇的檔案
-            document.getElementById("upload_text").textContent = await uploadImg(file); // 上傳檔案並回傳URL
-            await sendRequest("save", userId, readShowCardData());
-            document.getElementById("loader").style.display = "none";
-        });
+	<footer>
+		<a href="#" onclick="logOut()">登出</a>
+	</footer>
 
-        // 上傳檔案並回傳URL
-        function uploadImg(file) {
-            return new Promise((resolve, reject) => {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    var fileBlob = dataURLtoBlob(reader.result);
-                    var formData = new FormData();
-                    formData.append("image", fileBlob);
+	<script>
+		var phoneCookie = getCookie("phone");
+		var developerDatas;
 
-                    fetch("https://api.imgbb.com/1/upload?key=469893f217d6ae17c01f5f0b42118fcc", {
-                        method: "POST",
-                        body: formData,
-                    })
-                        .then(function (response) {
-                            return response.json();
-                        })
-                        .then(function (data) {
-                            resolve(data.data.display_url);
-                        })
-                        .catch(function (error) {
-                            alert("上傳照片錯誤\n" + error);
-                            reject(error);
-                        });
-                };
-                reader.readAsDataURL(file);
-            });
+		document.addEventListener('DOMContentLoaded', async function () {
+			// 若無登入過則不執行
+			if (!phoneCookie) window.location.href = "/login";
+			if (phoneCookie !== "00000000") window.location.href = "/login";
+			developerDatas = (await sendRequest("getDeveloperData")).data
+			for (var i = 0; i < developerDatas.length; i++) {
+				var option = document.createElement('option');
+				option.value = developerDatas[i][0];
+				option.textContent = developerDatas[i][0];
+				document.getElementById('ladyNameDropdown').appendChild(option);
+			}
+			ladyNameDropdownChange(document.getElementById('ladyNameDropdown'))
+			document.getElementById("loader").style.display = "none";
+			var valuesList = Array.from(document.getElementsByClassName("img-upload")).map(element => element.value);
 
-            function dataURLtoBlob(dataURL) {
-                var arr = dataURL.split(","); // 將資料URL分割成類型和資料部分
-                var mime = arr[0].match(/:(.*?);/)[1]; // 提取資料URL中的MIME類型
-                var bstr = atob(arr[1]); // 解碼Base64編碼的資料部分
-                var n = bstr.length;
-                var u8arr = new Uint8Array(n);
-                while (n--) {
-                    u8arr[n] = bstr.charCodeAt(n); // 轉換為Uint8Array
-                }
-                return new Blob([u8arr], { type: mime }); // 創建Blob物件
-            }
-        }
-    </script>
+		});
+
+		function ladyNameDropdownChange(ladyNameDropdownElement) {
+			var ladyName = ladyNameDropdownElement.value
+			var ladyIndex = developerDatas.map(row => row[0]).findIndex(subArray => subArray === ladyName)
+			var imageUrls = JSON.parse(developerDatas[ladyIndex][1])
+			if (!imageUrls) return;
+			for (var [index, imageUrl] of imageUrls.entries()) {
+				var imgTextIdString = "imgText" + (index + 1)
+				document.getElementById(imgTextIdString).textContent = "點我看圖";
+				document.getElementById(imgTextIdString).href = imageUrl;
+			}
+			document.getElementById("ladyDescription").value = developerDatas[ladyIndex][2];
+			document.getElementById("ladyAge").value = developerDatas[ladyIndex][3];
+			document.getElementById("ladyHeight").value = developerDatas[ladyIndex][4];
+			document.getElementById("ladyBodyValues").value = developerDatas[ladyIndex][5];
+		}
+
+		async function imgUploadChange(event) {
+			if (!event.target.files[0]) return;
+			document.getElementById("loader").style.display = "flex";
+			var imgTextIdString = event.target.id.replace("Upload", "Text")
+			document.getElementById(imgTextIdString).textContent = "點我看圖";
+			document.getElementById(imgTextIdString).href = await uploadImg(event.target.files[0]);
+			document.getElementById("loader").style.display = "none";
+			// 上傳檔案並回傳URL
+			function uploadImg(file) {
+				return new Promise((resolve, reject) => {
+					var reader = new FileReader();
+					reader.onload = function () {
+						var fileBlob = dataURLtoBlob(reader.result);
+						var formData = new FormData();
+						formData.append("image", fileBlob);
+
+						fetch("https://api.imgbb.com/1/upload?key=469893f217d6ae17c01f5f0b42118fcc", {
+							method: "POST",
+							body: formData,
+						})
+							.then(function (response) {
+								return response.json();
+							})
+							.then(function (data) {
+								resolve(data.data.display_url);
+							})
+							.catch(function (error) {
+								alert("上傳照片錯誤\n" + error);
+								reject(error);
+							});
+					};
+					reader.readAsDataURL(file);
+				});
+
+				function dataURLtoBlob(dataURL) {
+					var arr = dataURL.split(","); // 將資料URL分割成類型和資料部分
+					var mime = arr[0].match(/:(.*?);/)[1]; // 提取資料URL中的MIME類型
+					var bstr = atob(arr[1]); // 解碼Base64編碼的資料部分
+					var n = bstr.length;
+					var u8arr = new Uint8Array(n);
+					while (n--) {
+						u8arr[n] = bstr.charCodeAt(n); // 轉換為Uint8Array
+					}
+					return new Blob([u8arr], { type: mime }); // 創建Blob物件
+				}
+			}
+		}
+	</script>
 </body>
 
 </html>

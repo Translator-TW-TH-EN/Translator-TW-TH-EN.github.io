@@ -11,17 +11,20 @@ if (isLoaderEnabled) {
         .catch(error => console.error('加載 loader.html 出錯：', error));
 } else {
     fetch('../data/loader.html').then(response => response.text())
-        .then(html => document.body.innerHTML += html)
+        .then(html => {
+            document.body.innerHTML += html
+        })
         .catch(error => console.error('加載 loader.html 出錯：', error));
 }
 
 // 若一直不停加載超過設定秒數，則強制跳轉
-var timeoutId = setTimeout(function () {
-    if (document.querySelector('.loader').style.display === 'flex') {
-        window.location.href = "/login";
-    }
-}, 5000);
+// var timeoutId = setTimeout(function () {
+//     if (document.querySelector('.loader').style.display === 'flex') {
+//         window.location.href = "/login";
+//     }
+// }, 5000);
 // 在頁面即將卸載時清理計時器
-window.addEventListener('beforeunload', function () {
-    clearTimeout(timeoutId);
-});
+// window.addEventListener('beforeunload', function () {
+//     clearTimeout(timeoutId);
+// });
+
