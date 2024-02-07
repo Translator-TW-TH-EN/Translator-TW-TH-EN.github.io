@@ -33,6 +33,20 @@
 					<!-- 使用 JavaScript 生成 每位服務員資料的下拉選單 -->
 				</select>
 			</div>
+			<div style="margin-top: 10px;">
+				<div class="container-choose form-field" style="width: -webkit-fill-available; margin: 5px;">
+					<button onclick="deleteLadyData()">刪除此筆資料</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container-grid-display" style="font-size: large;">
+				<label>名稱：</label>
+				<input type="text" id="ladyName" style="margin: 5px;">
+			</div>
 		</div>
 	</div>
 
@@ -105,10 +119,29 @@
 		</div>
 	</div>
 
+	<div class="container">
+		<div class="container-item container-padding">
+			<div class="container-grid-display" style="height: 70px;font-size: large;">
+				<label for="daysDropdown">選擇星期幾：</label>
+				<select id="daysDropdown" class="custom-dropdown" onchange="daysDropdownChange(this)">
+					<!-- 使用 JavaScript 生成 一星期七天日期的下拉選單 -->
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="container-item  container-padding">
+			<div class="container" id="timeSlots">
+				<!-- 使用JavaScript生成時間區塊 -->
+			</div>
+		</div>
+	</div>
+
 	<div class="container" style="margin-bottom: 60px;">
 		<div class="container-item container-padding">
 			<div class="container-choose form-field">
-				<button onclick="submitOrder()">送出</button>
+				<button onclick="submitSetLadyData()">儲存</button>
 			</div>
 		</div>
 	</div>
@@ -120,39 +153,147 @@
 
 	<script>
 		var phoneCookie = getCookie("phone");
-		var developerDatas;
+		var developerDatas, workingData, ladyName, ladyIndex;
 
 		document.addEventListener('DOMContentLoaded', async function () {
 			// 若無登入過則不執行
 			if (!phoneCookie) window.location.href = "/login";
 			if (phoneCookie !== "00000000") window.location.href = "/login";
 			developerDatas = (await sendRequest("getDeveloperData")).data
+			var emptyBaseData = ['新增一筆資料', '[]', '', NaN, NaN, '', NaN, '{}', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]']
+			developerDatas[developerDatas.length] = emptyBaseData
 			for (var i = 0; i < developerDatas.length; i++) {
 				var option = document.createElement('option');
 				option.value = developerDatas[i][0];
 				option.textContent = developerDatas[i][0];
 				document.getElementById('ladyNameDropdown').appendChild(option);
 			}
+			// 新增資料
 			ladyNameDropdownChange(document.getElementById('ladyNameDropdown'))
-			document.getElementById("loader").style.display = "none";
 			var valuesList = Array.from(document.getElementsByClassName("img-upload")).map(element => element.value);
-
+			// 使用 JavaScript 生成 一星期七天日期的下拉選單
+			var daysOfWeek = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+			daysOfWeek.forEach((day, index) => {
+				var option = new Option(day, index + 1);
+				document.getElementById('daysDropdown').appendChild(option);
+			});
+			await daysDropdownChange(document.getElementById('daysDropdown'))
+			document.getElementById("loader").style.display = "none";
 		});
 
-		function ladyNameDropdownChange(ladyNameDropdownElement) {
-			var ladyName = ladyNameDropdownElement.value
-			var ladyIndex = developerDatas.map(row => row[0]).findIndex(subArray => subArray === ladyName)
+		async function ladyNameDropdownChange(ladyNameDropdownElement) {
+			ladyName = ladyNameDropdownElement.value
+			ladyIndex = developerDatas.map(row => row[0]).findIndex(subArray => subArray === ladyName)
+			if (ladyIndex === -1) alert("發生錯誤：找不到資料\n請重新整理頁面")
 			var imageUrls = JSON.parse(developerDatas[ladyIndex][1])
-			if (!imageUrls) return;
-			for (var [index, imageUrl] of imageUrls.entries()) {
-				var imgTextIdString = "imgText" + (index + 1)
-				document.getElementById(imgTextIdString).textContent = "點我看圖";
-				document.getElementById(imgTextIdString).href = imageUrl;
+			if (!imageUrls) alert("發生錯誤：找不到照片資料\n請重新整理頁面")
+			for (var i = 0; i < document.getElementsByClassName("img-upload").length; i++) {
+				var imgTextIdString = "imgText" + (i + 1)
+				if (imageUrls[i]) {
+					document.getElementById(imgTextIdString).textContent = "點我看圖";
+					document.getElementById(imgTextIdString).href = imageUrls[i];
+				}
+				else {
+					document.getElementById(imgTextIdString).textContent = "請選擇圖片...";
+					document.getElementById(imgTextIdString).removeAttribute("href");
+				}
 			}
+			document.getElementById("ladyName").value = ladyName
 			document.getElementById("ladyDescription").value = developerDatas[ladyIndex][2];
 			document.getElementById("ladyAge").value = developerDatas[ladyIndex][3];
 			document.getElementById("ladyHeight").value = developerDatas[ladyIndex][4];
 			document.getElementById("ladyBodyValues").value = developerDatas[ladyIndex][5];
+			await daysDropdownChange(document.getElementById('daysDropdown'))
+		}
+
+		async function deleteLadyData() {
+			var ladyName = document.getElementById('ladyNameDropdown').value;
+			if (ladyName === "新增一筆資料") return;
+			var result = await Swal.fire({
+				title: '確認刪除\n' + ladyName,
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: '確認',
+				cancelButtonText: '取消'
+			});
+			if (!result.isConfirmed) return;
+			await sendRequest("setDeveloperData", phoneCookie, JSON.stringify({ delete: ladyName }));
+		}
+
+		async function daysDropdownChange(daysDropdownElement) {
+			// 使用 JavaScript 生成時間區塊 全部24小時
+			var startTime = new Date(`2000-01-01T00:00:00`);
+			var endTime = new Date(`2000-01-01T24:00:00`);
+			var currentTime = new Date(startTime);
+			document.getElementById("timeSlots").innerHTML = ""
+			// 每20分鐘生成一個時間區塊
+			while (currentTime < endTime) {
+				var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+				currentTime.setMinutes(currentTime.getMinutes() + 20);
+				var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+				var timeChooseBtn = document.createElement("div");
+				timeChooseBtn.innerHTML = `<div class="time-choose-btn" id="${formattedTimeStart}" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
+				var innerDiv = timeChooseBtn.firstChild;
+				document.getElementById("timeSlots").appendChild(innerDiv);
+			}
+			// 取得 ladyName 對應的 能服務時間(workingHours) 的資料
+			var correctedWeekDayIndex = (parseInt(daysDropdownElement.value)) % 7;
+			var workingHours = JSON.parse(developerDatas[ladyIndex][8 + correctedWeekDayIndex])
+			// 使用 JavaScript 生成時間區塊 能工作的時段
+			workingHours.forEach(function (timeRange) {
+				var [start, end] = timeRange.split("~");
+				var startTime = new Date(`2000-01-01T${start}:00`);
+				var endTime = new Date(`2000-01-01T${end}:00`);
+				var currentTime = new Date(startTime);
+				// 每20分鐘生成一個時間區塊
+				while (currentTime < endTime) {
+					var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+					currentTime.setMinutes(currentTime.getMinutes() + 20);
+					document.getElementById(formattedTimeStart).classList.add('selected');
+				}
+			});
+		}
+
+		async function submitSetLadyData() {
+			var selectedTimeArray = [];
+			var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
+			selectedElements.forEach(function (element) {
+				selectedTimeArray.push(element.textContent.trim());
+			});
+
+			var orderTime = combineFixOrderTime(selectedTimeArray);
+			// 若輸入的名字已經存在ladyNameDropdown則跳出提示
+			var ladyNameSet = new Set(Array.from(document.getElementById("ladyNameDropdown").options).map(option => option.value));
+			if (ladyNameSet.has(document.getElementById("ladyName").value)) {
+				await Swal.fire({
+					title: '名稱已存在',
+					icon: 'warning',
+					confirmButtonText: '確認',
+				}).then((result) => {
+					location.reload();
+				});
+			}
+			var result = await Swal.fire({
+				title: '確認開放的時間',
+				html: orderTime.join('<br>'),
+				showCancelButton: true,
+				confirmButtonText: '確認',
+				cancelButtonText: '取消',
+			});
+			if (result.isConfirmed) {
+				document.getElementById('loader').style.display = 'flex';
+				developerDatas[ladyIndex][0] = document.getElementById("ladyName").value
+				var imageUrls = Array.from({ length: 5 }, (_, i) => document.getElementById(`imgText${i + 1}`)?.getAttribute("href")).filter(Boolean);
+				developerDatas[ladyIndex][1] = JSON.stringify(imageUrls)
+				developerDatas[ladyIndex][2] = document.getElementById("ladyDescription").value
+				developerDatas[ladyIndex][3] = document.getElementById("ladyAge").value
+				developerDatas[ladyIndex][4] = document.getElementById("ladyHeight").value
+				developerDatas[ladyIndex][5] = document.getElementById("ladyBodyValues").value
+				var weekDay = parseInt(document.getElementById('daysDropdown').value) % 7
+				developerDatas[ladyIndex][8 + weekDay] = JSON.stringify(orderTime)
+				await sendRequest("setDeveloperData", phoneCookie, JSON.stringify({ update: ladyName, developerDatas: developerDatas[ladyIndex] }));
+				location.reload();
+			}
 		}
 
 		async function imgUploadChange(event) {
@@ -200,6 +341,14 @@
 					}
 					return new Blob([u8arr], { type: mime }); // 創建Blob物件
 				}
+			}
+		}
+
+		function isSelected(event) {
+			if (event.target.classList.contains('selected')) {
+				event.target.classList.remove('selected');
+			} else {
+				event.target.classList.add('selected');
 			}
 		}
 	</script>

@@ -48,7 +48,6 @@
 
     <div class="container">
         <div class="container-item  container-padding">
-
             <div class="container" id="timeSlots">
                 <!-- 使用JavaScript生成時間區塊 -->
             </div>
@@ -121,9 +120,9 @@
                 var currentTime = new Date(startTime);
                 // 每20分鐘生成一個時間區塊
                 while (currentTime < endTime) {
-                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                    currentTime.setMinutes(currentTime.getMinutes() + 20);
-                    var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+					var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+					currentTime.setMinutes(currentTime.getMinutes() + 20);
+					var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
                     var timeChooseBtn = document.createElement("div");
                     timeChooseBtn.innerHTML = `<div class="time-choose-btn" id="${formattedTimeStart}" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
                     var innerDiv = timeChooseBtn.firstChild;
@@ -179,7 +178,7 @@
                     window.location.href = "/menu";
                 }
             } catch (error) {
-                alert(error)
+                alert("發生錯誤：" + error + "\n請重新整理頁面")
                 location.reload();
             }
         }

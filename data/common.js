@@ -1,5 +1,5 @@
 // google Apps Script 傳送訊息
-async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
+async function sendRequest(status, phone = NaN, data = {}, isCatchRedirectError = false) {
 	if (!status) {
 		alert("向google apps script寄送請求時\n有效參數不足");
 		return;
@@ -16,10 +16,11 @@ async function sendRequest(status, phone = NaN, data = {}, isDebug = true) {
 		console.log("Data sent:", sendData);
 		console.log("Response:", responseData);
 		if (responseData.status === 'ok') { return responseData; }
-		else { throw Error(JSON.stringify(responseData.msg)) }
+		else { 
+			throw  new Error(JSON.stringify(responseData.msg)) }
 	} catch (error) {
-		// 忽略 "TypeError: Failed to fetch" 錯誤
-		if (!isDebug && error instanceof TypeError && error.message === "Failed to fetch") { return; }
+		// 避免跳轉時還在等待傳送，忽略 "TypeError: Failed to fetch" 錯誤
+		if (!isCatchRedirectError && error instanceof TypeError && error.message === "Failed to fetch") { return; }
 		alert("向google apps script寄送請求時\n發生錯誤\n" + error);
 	}
 }
@@ -30,7 +31,7 @@ function getCookie(name) {
 	for (var i = 0; i < cookies.length; i++) {
 		var cookie = cookies[i].split("=");
 		if (cookie[0] === name) {
-			return cookie[1];
+			return String(cookie[1]);
 		}
 	}
 	return null;
