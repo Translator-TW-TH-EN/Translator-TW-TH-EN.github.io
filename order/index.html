@@ -102,15 +102,6 @@
             // 取得 ladyName 對應的 能服務時間(workingHours) 的資料
             var workingHours = JSON.parse(workingData[correctedWeekDayIndex]);
             var bookedHours = JSON.parse(workingData[7 + correctedWeekDayIndex]).flatMap(item => Object.values(item)[0]);
-            if (workingHours.length === 0) {
-                Swal.fire({
-                    title: '目前無提供服務',
-                    confirmButtonText: '確認',
-                    icon: 'info',
-                }).then((result) => {
-                    window.location.href = "/menu";
-                });
-            }
             // 使用 JavaScript 生成時間區塊
             document.getElementById("timeSlots").innerHTML = ""
             workingHours.forEach(function (timeRange) {
@@ -120,9 +111,9 @@
                 var currentTime = new Date(startTime);
                 // 每20分鐘生成一個時間區塊
                 while (currentTime < endTime) {
-					var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
-					currentTime.setMinutes(currentTime.getMinutes() + 20);
-					var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
+                    currentTime.setMinutes(currentTime.getMinutes() + 20);
+                    var formattedTimeEnd = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
                     var timeChooseBtn = document.createElement("div");
                     timeChooseBtn.innerHTML = `<div class="time-choose-btn" id="${formattedTimeStart}" onclick="isSelected(event);">${formattedTimeStart}~${formattedTimeEnd}</div>`;
                     var innerDiv = timeChooseBtn.firstChild;

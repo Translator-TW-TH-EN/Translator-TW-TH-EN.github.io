@@ -141,11 +141,10 @@
 	<div class="container" style="margin-bottom: 60px;">
 		<div class="container-item container-padding">
 			<div class="container-choose form-field">
-				<button onclick="submitSetLadyData()">儲存</button>
+				<button onclick="submitSetLadyData()">送出</button>
 			</div>
 		</div>
 	</div>
-
 
 	<footer>
 		<a href="#" onclick="logOut()">登出</a>
@@ -217,7 +216,9 @@
 				cancelButtonText: '取消'
 			});
 			if (!result.isConfirmed) return;
+			document.getElementById("loader").style.display = "flex";
 			await sendRequest("setDeveloperData", phoneCookie, JSON.stringify({ delete: ladyName }));
+			location.reload();
 		}
 
 		async function daysDropdownChange(daysDropdownElement) {
@@ -255,45 +256,40 @@
 		}
 
 		async function submitSetLadyData() {
-			var selectedTimeArray = [];
-			var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
-			selectedElements.forEach(function (element) {
-				selectedTimeArray.push(element.textContent.trim());
-			});
-
-			var orderTime = combineFixOrderTime(selectedTimeArray);
-			// 若輸入的名字已經存在ladyNameDropdown則跳出提示
-			var ladyNameSet = new Set(Array.from(document.getElementById("ladyNameDropdown").options).map(option => option.value));
+			// 若輸入的名字，已經存在除了目前選項外的其他選項內的ladyNameDropdown則跳出提示
+			var ladyNameSet = new Set(Array.from(document.getElementById("ladyNameDropdown").options)
+				.filter(option => option.value !== document.getElementById("ladyNameDropdown").value)
+				.map(option => option.value));
 			if (ladyNameSet.has(document.getElementById("ladyName").value)) {
 				await Swal.fire({
 					title: '名稱已存在',
 					icon: 'warning',
 					confirmButtonText: '確認',
-				}).then((result) => {
-					location.reload();
 				});
+				return;
 			}
-			var result = await Swal.fire({
-				title: '確認開放的時間',
-				html: orderTime.join('<br>'),
-				showCancelButton: true,
-				confirmButtonText: '確認',
-				cancelButtonText: '取消',
-			});
-			if (result.isConfirmed) {
-				document.getElementById('loader').style.display = 'flex';
-				developerDatas[ladyIndex][0] = document.getElementById("ladyName").value
-				var imageUrls = Array.from({ length: 5 }, (_, i) => document.getElementById(`imgText${i + 1}`)?.getAttribute("href")).filter(Boolean);
-				developerDatas[ladyIndex][1] = JSON.stringify(imageUrls)
-				developerDatas[ladyIndex][2] = document.getElementById("ladyDescription").value
-				developerDatas[ladyIndex][3] = document.getElementById("ladyAge").value
-				developerDatas[ladyIndex][4] = document.getElementById("ladyHeight").value
-				developerDatas[ladyIndex][5] = document.getElementById("ladyBodyValues").value
-				var weekDay = parseInt(document.getElementById('daysDropdown').value) % 7
-				developerDatas[ladyIndex][8 + weekDay] = JSON.stringify(orderTime)
+			if (document.getElementById("ladyName").value === "新增一筆資料") {
+				await Swal.fire({
+					title: '新增資料\n請修改名稱',
+					icon: 'warning',
+					confirmButtonText: '確認',
+				});
+				return;
+			}
+			document.getElementById('loader').style.display = 'flex';
+			developerDatas[ladyIndex][0] = document.getElementById("ladyName").value
+			var imageUrls = Array.from({ length: 5 }, (_, i) => document.getElementById(`imgText${i + 1}`)?.getAttribute("href")).filter(Boolean);
+			developerDatas[ladyIndex][1] = JSON.stringify(imageUrls)
+			developerDatas[ladyIndex][2] = document.getElementById("ladyDescription").value
+			developerDatas[ladyIndex][3] = document.getElementById("ladyAge").value
+			developerDatas[ladyIndex][4] = document.getElementById("ladyHeight").value
+			developerDatas[ladyIndex][5] = document.getElementById("ladyBodyValues").value
+			daysDropdownSaveToDeveloperDatas()
+			if (document.getElementById("ladyNameDropdown").value === "新增一筆資料")
+				await sendRequest("setDeveloperData", phoneCookie, JSON.stringify({ add: document.getElementById("ladyName").value, developerDatas: developerDatas[ladyIndex] }));
+			else
 				await sendRequest("setDeveloperData", phoneCookie, JSON.stringify({ update: ladyName, developerDatas: developerDatas[ladyIndex] }));
-				location.reload();
-			}
+			location.reload();
 		}
 
 		async function imgUploadChange(event) {
@@ -350,6 +346,19 @@
 			} else {
 				event.target.classList.add('selected');
 			}
+			// 存下更改過的daysDropdown資料，存到developerDatas
+			daysDropdownSaveToDeveloperDatas()
+		}
+
+		function daysDropdownSaveToDeveloperDatas() {
+			var selectedTimeArray = [];
+			var selectedElements = document.querySelectorAll('.time-choose-btn.selected')
+			selectedElements.forEach(function (element) {
+				selectedTimeArray.push(element.textContent.trim());
+			});
+			var orderTime = combineFixOrderTime(selectedTimeArray);
+			var weekDay = parseInt(document.getElementById('daysDropdown').value) % 7
+			developerDatas[ladyIndex][8 + weekDay] = JSON.stringify(orderTime)
 		}
 	</script>
 </body>

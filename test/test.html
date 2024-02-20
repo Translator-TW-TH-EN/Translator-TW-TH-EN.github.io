@@ -1,121 +1,215 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>translator-tw-th-en</title>
-	<!-- 引入 SweetAlert2 CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
-	<!-- 引入 SweetAlert2 JS -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
-	<!-- 載入資料 -->
-	<script src="../data/common.js"></script>
-	<script src="../data/loginCheck.js"></script>
-	<script src="../data/browserCheck.js"></script>
-	<script src="../data/data.js"></script>
-	<script src="../data/loader.js" loading-on="false"></script>
-	<link rel="stylesheet" type="text/css" href="../data/styles.css">
-</head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Dropdown Event Example       Option 1   Option 2   Option 3    document.getElementById(&quot;mySelect&quot;).addEventListener(&quot;mousedown&quot;, function(event) {   &#x2F;&#x2F; 在下拉選單值改變前觸發事件   console.log(&quot;在改變前觸發事件&quot;);">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://translator-tw-th-en.github.io/test/test.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Dropdown Event Example       Option 1   Option 2   Option 3    document.getElementById(&quot;mySelect&quot;).addEventListener(&quot;mousedown&quot;, function(event) {   &#x2F;&#x2F; 在下拉選單值改變前觸發事件   console.log(&quot;在改變前觸發事件&quot;);">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-02-20T09:18:55.684Z">
+<meta property="article:modified_time" content="2024-02-20T09:18:55.684Z">
+<meta property="article:author" content="Albert Wang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
 
 <body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">歡迎來到這裡</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://Translator-TW-TH-EN.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
 
-	<header>
-		<!-- 這裡會自動填入登入之帳號 -->
-	</header>
+      <div class="outer">
+        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/test/test.html" class="article-date">
+  <time class="dt-published" datetime="2024-02-20T09:18:55.684Z" itemprop="datePublished">2024-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dropdown Event Example</title>
+</head>
+<body>
 
-	<div class="container">
-		<div class="container-item container-padding">
-			<div class="container-just-word" style="height: 70px;font-size: large;">
-				<label for="ladyNameDisplay">服務員：</label>
-				<select id="ladyNameDropdown" class="custom-dropdown" onchange="ladyNameDropdownChange(this)">
-					<!-- 使用 JavaScript 生成 後七天日期的下拉選單 -->
-				</select>
-			</div>
-		</div>
-	</div>
+<select id="mySelect">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
 
-	<div class="container">
-		<div class="container-item  container-padding">
-			<div class="container">
-				<input type="file" id="upload" accept="image/*">
-			</div>
-		</div>
-	</div>
+<script>
+document.getElementById("mySelect").addEventListener("mousedown", function(event) {
+  // 在下拉選單值改變前觸發事件
+  console.log("在改變前觸發事件");
+  console.log("當前選擇值:", this.value);
+});
+</script>
 
-	<div class="container" style="margin-bottom: 60px;">
-		<div class="container-item container-padding">
-			<div class="container-choose form-field">
-				<button onclick="submitOrder()">送出</button>
-			</div>
-		</div>
-	</div>
-
-	<footer>
-		<a href="#" onclick="logOut()">登出</a>
-	</footer>
-
-	<script>
-		var phoneCookie = getCookie("phone");
-
-		document.addEventListener('DOMContentLoaded', async function () {
-			// 若無登入過則不執行
-			if (!phoneCookie) window.location.href = "/login";
-			if (phoneCookie !== "00000000") window.location.href = "/login";
-		});
-
-
-		// 檢查是否有新圖片更新到網頁並上傳
-		document.getElementById("upload").addEventListener("change", async function (event) {
-			alert(4)
-			// document.getElementById("loader").style.display = "flex";
-			// var file = event.target.files[0]; // 取得選擇的檔案
-			// document.getElementById("upload_text").textContent = await uploadImg(file); // 上傳檔案並回傳URL
-			// await sendRequest("save", userId, readShowCardData());
-			// document.getElementById("loader").style.display = "none";
-		});
-
-		// 上傳檔案並回傳URL
-		function uploadImg(file) {
-			return new Promise((resolve, reject) => {
-				var reader = new FileReader();
-				reader.onload = function () {
-					var fileBlob = dataURLtoBlob(reader.result);
-					var formData = new FormData();
-					formData.append("image", fileBlob);
-
-					fetch("https://api.imgbb.com/1/upload?key=469893f217d6ae17c01f5f0b42118fcc", {
-						method: "POST",
-						body: formData,
-					})
-						.then(function (response) {
-							return response.json();
-						})
-						.then(function (data) {
-							resolve(data.data.display_url);
-						})
-						.catch(function (error) {
-							alert("上傳照片錯誤\n" + error);
-							reject(error);
-						});
-				};
-				reader.readAsDataURL(file);
-			});
-
-			function dataURLtoBlob(dataURL) {
-				var arr = dataURL.split(","); // 將資料URL分割成類型和資料部分
-				var mime = arr[0].match(/:(.*?);/)[1]; // 提取資料URL中的MIME類型
-				var bstr = atob(arr[1]); // 解碼Base64編碼的資料部分
-				var n = bstr.length;
-				var u8arr = new Uint8Array(n);
-				while (n--) {
-					u8arr[n] = bstr.charCodeAt(n); // 轉換為Uint8Array
-				}
-				return new Blob([u8arr], { type: mime }); // 創建Blob物件
-			}
-		}
-	</script>
 </body>
+</html>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://translator-tw-th-en.github.io/test/test.html" data-id="clrxajutt000384u9goevch28" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">一月 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/index.html">index</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 Albert Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
 </html>
