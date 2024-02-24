@@ -1,5 +1,5 @@
 
-const googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbyFkheL19SvXXnWX-pZ9jgDnVzwV999r3w4ZaDTNNlNWUpSRoCCwAnPMG7pkzj9VT0/exec"
+const googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbwO-5Ehlxh4G9BKla_ItDTSPUhqE1lZlIb8FqTh9CDNBJUeVTJ1wfR18CuC8OIFhYQ/exec"
 
 // 這張會員卡片的 URL
 var card_img_url;
