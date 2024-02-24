@@ -12,7 +12,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
 	<!-- 載入資料 -->
 	<script src="../data/common.js"></script>
-	<script src="../data/loginCheck.js"></script>
+	<!-- <script src="../data/loginCheck.js"></script> -->
 	<script src="../data/browserCheck.js"></script>
 	<script src="../data/data.js"></script>
 	<script src="../data/loader.js" loading-on="true"></script>
@@ -155,9 +155,6 @@
 		var developerDatas, workingData, ladyName, ladyIndex;
 
 		document.addEventListener('DOMContentLoaded', async function () {
-			// 若無登入過則不執行
-			if (!phoneCookie) window.location.href = "/login";
-			if (phoneCookie !== "00000000") window.location.href = "/login";
 			developerDatas = (await sendRequest("getDeveloperData")).data
 			var emptyBaseData = ['新增一筆資料', '[]', '', NaN, NaN, '', NaN, '{}', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]']
 			developerDatas[developerDatas.length] = emptyBaseData
