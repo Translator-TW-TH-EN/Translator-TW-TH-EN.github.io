@@ -128,7 +128,7 @@
                 var currentTime = new Date(startTime);
                 // 每20分鐘生成一個時間區塊
                 while (currentTime < endTime) {
-                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    var formattedTimeStart = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace("24:", "00:");
                     currentTime.setMinutes(currentTime.getMinutes() + 20);
                     var timeChooseBtn = document.getElementById(formattedTimeStart);
                     timeChooseBtn.removeAttribute('onclick');
